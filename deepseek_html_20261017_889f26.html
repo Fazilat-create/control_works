@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портал знаний | Проверочные работы</title>
+    <style>
+        :root {
+            --purple: #8e44ad;
+            --blue: #2980b9;
+            --text: #2c3e50;
+            --white: #ffffff;
+            --bg: #f4f6f9;
+            --orange: #e67e22;
+            --red: #e74c3c;
+            --green: #27ae60;
+            --pink: #f8bbd0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8daef 0%, #d6eaf8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text);
+        }
+
+        .portal-container {
+            max-width: 1000px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 4px solid var(--purple);
+        }
+
+        /* Шапка */
+        .header {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Сетка с предметами */
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            padding: 40px;
+        }
+
+        /* Карточка предмета */
+        .subject-card {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            border: 2px solid #dcdde1;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.2);
+            border-color: var(--purple);
+            background: #fff;
+        }
+
+        .subject-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--purple);
+        }
+
+        .subject-card p {
+            font-size: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        /* Иконки/эмодзи */
+        .icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+        .subject-card:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Кнопка */
+        .btn {
+            background: var(--blue);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: auto;
+            transition: background 0.3s;
+        }
+        
+        .subject-card:hover .btn {
+            background: var(--purple);
+        }
+
+        /* Разные цвета для карточек */
+        .subject-card.math { border-bottom: 6px solid var(--orange); }
+        .subject-card.info { border-bottom: 6px solid var(--blue); }
+        .subject-card.vis { border-bottom: 6px solid var(--green); }
+        .subject-card.algebra { border-bottom: 6px solid var(--red); }
+
+        .subject-card.math .btn { background: var(--orange); }
+        .subject-card.info .btn { background: var(--blue); }
+        .subject-card.vis .btn { background: var(--green); }
+        .subject-card.algebra .btn { background: var(--red); }
+
+        /* Подвал */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #dcdde1;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .subjects-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="portal-container">
+    <div class="header">
+        <h1>🎓 Портал знаний</h1>
+        <p>Выберите проверочную работу для вашего класса</p>
+    </div>
+
+    <div class="subjects-grid">
+        
+        <!-- КАРТОЧКА 1: Математика 6 класс -->
+        <a href="math_6_kvest.html" class="subject-card math">
+            <div class="icon">🧮</div>
+            <h2>Математика (6 класс)</h2>
+            <p>Контрольная работа-квест «Путь к сундуку посланий»</p>
+            <div class="btn">Открыть работу</div>
+        </a>
+
+        <!-- КАРТОЧКА 2: Информатика 6 класс -->
+        <a href="info_6_kvest.html" class="subject-card info">
+            <div class="icon">💻</div>
+            <h2>Информатика (6 класс)</h2>
+            <p>Квест «Битва с Вирусом Хаоса» (Множества и Системы)</p>
+            <div class="btn">Открыть работу</div>
+        </a>
+
+        <!-- КАРТОЧКА 3: ВИС 8 класс -->
+        <a href="vis_8_test.html" class="subject-card vis">
+            <div class="icon">🕌</div>
+            <h2>ВИС (8 класс)</h2>
+            <p>Проверочная работа по предмету ВИС</p>
+            <div class="btn">Открыть работу</div>
+        </a>
+
+        <!-- КАРТОЧКА 4: Алгебра 8 класс -->
+        <a href="algebra_8_test.html" class="subject-card algebra">
+            <div class="icon">📐</div>
+            <h2>Алгебра (8 класс)</h2>
+            <p>Контрольная работа по алгебре</p>
+            <div class="btn">Открыть работу</div>
+        </a>
+
+    </div>
+
+    <div class="footer">
+        <p>© УмаФлешка & Co. Успехов в учёбе! 🌟</p>
+    </div>
+</div>
+
+</body>
+</html>
