@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Презентация: Контрольная работа-квест</title>
+    
+    <!-- ПОДКЛЮЧАЕМ БИБЛИОТЕКУ ДЛЯ ФОРМУЛ (MATHJAX) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --orange: #ff8c42;
+            --orange-dark: #e6732e;
+            --orange-light: #ffb885;
+            --peach: #ffe4cc;
+            --yellow: #ffd166;
+            --cream: #fff8f0;
+            --text: #4a3728;
+            --white: #ffffff;
+            --purple: #a569bd;
+            --purple-light: #f4ecf7;
+            --gold: #f1c40f;
+            --wood: #8b5a2b;
+            --wood-dark: #5c3a1e;
+            --islamic-green: #2e7d32;
+            --islamic-bg: #e8f5e9;
+            --red: #e74c3c;
+            --dark-bg: #2c3e50;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Comic Sans MS', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #1a252f;
+            color: var(--text);
+            line-height: 1.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 98vw;
+            max-width: 1400px;
+            height: 96vh;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid var(--dark-bg);
+        }
+
+        /* Слайды */
+        .slide {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            padding: 15px 20px 60px 20px; 
+            overflow-y: hidden;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .slide.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Обертка для 1-го слайда (по центру) */
+        .slide-content-narrow {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Стрелки навигации */
+        .nav-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: var(--orange);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover { background: var(--orange-light); color: var(--dark-bg); transform: scale(1.1); }
+        .nav-btn:disabled { background: #7f8c8d; color: #bdc3c7; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Шапка слайда */
+        .slide-header {
+            background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 140, 66, 0.3);
+            flex-shrink: 0;
+        }
+
+        .slide-header h1 { font-size: 1.5rem; margin-bottom: 2px; }
+        .slide-header h2 { font-size: 1rem; font-weight: normal; opacity: 0.9; }
+
+        /* Сюжет на первом слайде */
+        .main-story {
+            background: #f8f0ff;
+            border: 2px dashed var(--purple);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            color: var(--text);
+            flex-shrink: 0;
+        }
+
+        /* Слайд 1: Инструкция (Узкие и высокие боксы) */
+        .instruction-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .rule-card {
+            background: var(--cream);
+            border: 2px solid var(--orange-light);
+            border-radius: 10px;
+            padding: 15px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rule-icon {
+            font-size: 1.5rem;
+            background: var(--white);
+            width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .rule-text { font-size: 0.95rem; font-weight: bold; color: var(--text); }
+
+        .warning-card {
+            background: #fdf2f2;
+            border: 2px solid var(--red);
+            border-radius: 10px;
+            padding: 15px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        /* Блок с исламским напоминанием */
+        .islamic-note {
+            background-color: var(--islamic-bg);
+            border: 2px solid var(--islamic-green);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #1b5e20;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto; /* Прижимает к низу */
+        }
+
+        .islamic-note .arabic { font-size: 1.5rem; font-family: 'Traditional Arabic', serif; color: var(--islamic-green); flex-shrink: 0; }
+
+        /* Сетка 2х2 для заданий */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .task-item {
+            background: var(--white);
+            border: 2px solid var(--peach);
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(255, 140, 66, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .task-header {
+            background: var(--peach);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px dashed var(--orange-light);
+            flex-shrink: 0;
+        }
+
+        .task-number {
+            background: var(--orange);
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .task-item h3 { color: var(--orange-dark); font-size: 1.05rem; margin: 0; }
+        
+        .task-content { 
+            padding: 12px; 
+            font-size: 0.95rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            flex-grow: 1;
+        }
+
+        .task-body { flex-grow: 1; }
+        .task-body p { margin-bottom: 6px; }
+        
+        .example-list {
+            list-style: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            background: var(--cream);
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px dashed var(--orange-light);
+            margin: 6px 0;
+        }
+
+        .task-note {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+            background: #fff8e8;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--yellow);
+            margin-top: 8px;
+            display: block;
+            word-wrap: break-word;
+        }
+
+        .story-inside {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 6px;
+            font-style: italic;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 4px;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        /* --- СЛАЙД 5: ФИНАЛ --- */
+        .final-slide-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .chest-svg {
+            width: 220px;
+            height: auto;
+            animation: float 3s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .final-text { font-size: 1.6rem; color: var(--orange-dark); font-weight: bold; }
+        .final-text .stars { color: var(--gold); font-size: 1.8rem; letter-spacing: 8px; display: block; margin-bottom: 10px; }
+
+        .character { font-weight: bold; color: var(--purple); white-space: nowrap; }
+        .hl-orange { background: #ffeaa7; padding: 1px 5px; border-radius: 4px; font-weight: bold; color: #d35400; }
+        .hl-blue { background: #d6eaf8; padding: 1px 5px; border-radius: 4px; font-weight: bold; color: #2980b9; }
+
+        /* --- СТИЛИ ДЛЯ ФЕЙЕРВЕРКА И ПРОДОЛЖЕНИЯ --- */
+        .stars-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            font-size: var(--s);
+            opacity: 0;
+            animation: twinkle 3s infinite alternate;
+            animation-delay: var(--d);
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+        }
+
+        .next-quarter {
+            background: linear-gradient(135deg, #fff8e8 0%, var(--peach) 100%);
+            border: 3px dashed var(--yellow);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-top: 25px;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(255, 140, 66, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 900px) {
+            .instruction-grid { grid-template-columns: 1fr; }
+            .tasks-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .slide { padding: 10px 10px 60px 10px; overflow-y: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+    
+    <!-- СЛАЙД 1: ИНСТРУКЦИЯ -->
+    <div class="slide active" id="slide1">
+        <div class="slide-content-narrow">
+            <div class="slide-header">
+                <h1>Контрольная работа-квест</h1>
+                <h2>«Путь к сундуку посланий»</h2>
+            </div>
+
+            <div class="main-story">
+                <strong>Сюжет:</strong> В Городе Эмоций заперт древний сундук с посланиями. Ключи спрятаны по всему городу! <span class="character">Любознательность</span>, <span class="character">Тревожность</span> и другие герои отправляются в путь. Помогите им пройти испытания.
+            </div>
+
+            <div class="instruction-grid">
+                <div class="rule-card">
+                    <div class="rule-icon">🔗</div>
+                    <div class="rule-text">Ссылка на задания уже в чате. Откройте её.</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon">📹</div>
+                    <div class="rule-text">Включаем камеры. <strong style="color: var(--red);">Без камеры балл снижается!</strong></div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon">📝</div>
+                    <div class="rule-text">Работу оформляем <strong>в тетради</strong> (условия, решения, ответы).</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-icon">📤</div>
+                    <div class="rule-text">Фотографируем тетрадь и отправляем на платформу <strong>Umaclass</strong>.</div>
+                </div>
+            </div>
+
+            <div class="warning-card">
+                <div class="rule-icon">⏰</div>
+                <div class="rule-text" style="color: var(--red);">
+                    По истечении времени (45 минут) работа должна быть сдана.<br>
+                    <strong>Тем, кто опоздает, снимается ещё один балл!</strong>
+                </div>
+            </div>
+
+            <div class="islamic-note">
+                <div class="arabic">﷽</div>
+                <div>
+                    <strong>С именем Аллаха, Милостивого, Милосердного!</strong><br>
+                    Знания — это аманат. Списывание — обман, который лишает бараката в учебе. Покажите свой истинный уровень, полагайтесь на Всевышнего и свои знания!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 2: ЗАДАНИЯ 1, 2, 3, 4 -->
+    <div class="slide" id="slide2">
+        <div class="tasks-grid">
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">1</div>
+                    <h3>🏛️ Старая ратуша</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">На дверях старой ратуши висят несколько табличек с числами. Чтобы войти, нужно выбрать из списка те, которые делятся на 3 (для зелёного пропуска) и на 9 (для красного пропуска).</div>
+                        <p><strong>а) на 3:</strong> 144, 135, 3690, 8260, 19635, 1023, 30147, 98413, 14, 49</p>
+                        <p><strong>б) на 9:</strong> 1800, 2346, 5512, 5112, 17589, 35916, 58658</p>
+                    </div>
+                    <div class="task-note">✍️ Оформление: запишите числа через запятую, укажите, на что именно проверяли делимость.</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">2</div>
+                    <h3>⛲ Центральная площадь</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">На центральной площади города бьёт древний фонтан. На его камнях высечены числа, которые нужно обработать, чтобы найти следующий ключ.</div>
+                        <div class="grid-2">
+                            <div>
+                                <p><strong>1)</strong> Представьте число <strong>120</strong> в виде произведения <span class="hl-orange">двух любых множителей</span> (кроме 1 и самого числа).</p>
+                            </div>
+                            <div>
+                                <p><strong>2)</strong> Разложите число <strong>234</strong> на <span class="hl-blue">простые множители</span>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-note">✍️ Оформление: для первого задания запишите пример (120 = ... · ...). Для второго — решение в столбик и ответ в виде произведения простых чисел.</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">3</div>
+                    <h3>🌳 Запутанные переулки</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">Улицы старого города запутаны, как лабиринт. Чтобы выбрать верный путь к следующему ключу, нужно найти НОД и НОК чисел, которые укажут правильное направление.</div>
+                        <div class="grid-2">
+                            <div><p>а) Найдите <strong>НОД</strong> чисел 144 и 154.</p></div>
+                            <div><p>б) Найдите <strong>НОК</strong> чисел 28 и 17.</p></div>
+                        </div>
+                    </div>
+                    <div class="task-note">✍️ Оформление: разложение на множители, вычисление, ответ.</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">4</div>
+                    <h3>📚 Архив библиотеки</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside"><span class="character">Любознательность</span> нашёл старую карту города в архиве, но на ней стёрлись некоторые знаки. Чтобы восстановить путь, нужно правильно расставить порядок действий и вычислить:</div>
+                        <ul class="example-list">
+                            <li>а) 960 : 12 + 24 · 5 - 48 =</li>
+                            <li>б) 480 - (180 - 120 : 6) · 3 =</li>
+                        </ul>
+                    </div>
+                    <div class="task-note">✍️ Оформление: расставьте цифры порядка действий над знаками, решение по действиям.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 3: ЗАДАНИЯ 5, 6, 7, 8 -->
+    <div class="slide" id="slide3">
+        <div class="tasks-grid">
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">5</div>
+                    <h3>🔭 Смотровая площадка</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">Поднявшись на смотровую площадку, <span class="character">Пессимизм</span> увидел на карте, что им нужно пройти огромное расстояние. Числа показались ему слишком большими и пугающими. Чтобы не запутаться в пути, он решил их округлить:</div>
+                        <p>а) Округлите число <strong>5 247 831</strong> до: десятков; тысяч; миллионов.</p>
+                        <p>б) Округлите десятичную дробь <strong>8,764</strong> до десятых.</p>
+                    </div>
+                    <div class="task-note">✍️ Оформление: исходное число, знак «≈», результат. Подчеркните цифру, до которой округляли.</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">6</div>
+                    <h3>🛒 Городской рынок</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside"><span class="character">Энтузиазм</span> увидел в магазине фонарик для поисков.</div>
+                        <p>Он стоил <strong>4500 рублей</strong>. Сначала цену снизили на <strong>15%</strong>, а потом эту сниженную цену повысили на <strong>15%</strong>. Сколько стал стоить фонарик после повышения цены?</p>
+                    </div>
+                    <div class="task-note">💡 Оформление: краткая запись, решение. Подсказка: при повышении 15% считаются уже от новой (сниженной) цены!</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">7</div>
+                    <h3>🌉 Мост через реку</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">Пока герои шли, они встретили двух велосипедистов — <span class="character">Раздражительность</span> и <span class="character">Пассивность</span>, которые развозили приглашения на праздник.</div>
+                        <p>Они выехали из двух посёлков навстречу друг другу. Скорость первого — 12 км/ч, второго — 15 км/ч. Они встретились через 2 часа. Какое расстояние между посёлками?</p>
+                    </div>
+                    <div class="task-note">✍️ Оформление: краткая запись, решение, ответ.</div>
+                </div>
+            </div>
+
+            <div class="task-item">
+                <div class="task-header">
+                    <div class="task-number">8</div>
+                    <h3>🏰 Подземелье хранилища</h3>
+                </div>
+                <div class="task-content">
+                    <div class="task-body">
+                        <div class="story-inside">Добравшись до хранилища, герои увидели сундук. На его крышке была выгравирована надпись: «Тот, кто найдёт больше всех монет, откроет замок».</div>
+                        <p><span class="character">Любознательность</span>, <span class="character">Тревожность</span> и <span class="character">Пессимизм</span> отправились в подземелье. <span class="character">Любознательность</span> нашёл на 10 монет больше, чем <span class="character">Тревожность</span>, а <span class="character">Пессимизм</span> нашёл в 2 раза больше монет, чем <span class="character">Тревожность</span>. Вместе они собрали 70 монет. Сколько монет нашёл каждый из них? Кто сможет открыть сундук?</p>
+                    </div>
+                    <div class="task-note">✍️ Оформление: краткая запись условия, решение через уравнение. Обязательно укажите, какую величину обозначили за переменную \(x\)!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СЛАЙД 4: БОНУС (Центрированный и компактный) -->
+    <div class="slide" id="slide4" style="align-items: center; justify-content: center;">
+        
+        <div class="task-item" style="border-color: var(--purple); width: 100%; max-width: 800px; height: auto; box-shadow: 0 10px 30px rgba(165, 105, 189, 0.2); background: var(--purple-light);">
+            <div class="task-header" style="background: #e8daef; border-bottom-color: var(--purple);">
+                <div class="task-number" style="background: var(--purple);">⭐</div>
+                <h3 style="color: var(--purple);">Задание для самых умных (по желанию)</h3>
+            </div>
+            
+            <div class="task-content" style="padding: 30px; text-align: center; font-size: 1.15rem;">
+                <div class="story-inside" style="text-align: left; border-bottom-color: #c39bd3;">
+                    <strong>Сюжет:</strong> <span class="character">Энтузиазм</span> и <span class="character">Оптимизм</span> нашли на дне сундука странную записку и загадку. Сможете их разгадать?
+                </div>
+                
+                <p style="margin-bottom: 20px;"><em>«Меня можно найти в каждом уравнении, но я не число. Меня можно найти в каждой задаче, но я не ответ. Кто я?»</em></p>
+                
+                <hr style="border: 1px dashed var(--purple); margin: 20px 0;">
+                
+                <p><strong>Математическая загадка:</strong></p>
+                <p style="margin-top: 15px; font-weight: bold; background: #fff; padding: 15px; border-radius: 10px; border: 1px solid #d2b4de;">
+                    Если к задуманному числу прибавить его половину, а потом отнять 10, то получится 20. Какое число задумали?
+                </p>
+
+                <div class="task-note" style="display: inline-block; margin-top: 25px; text-align: left; border-left-color: var(--purple); background: #fff;">
+                    💡 Подсказка: подумай, как записать «половину числа» через \(x\).
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- СЛАЙД 5: ФИНАЛ -->
+    <div class="slide" id="slide5">
+        
+        <!-- Анимированные звезды на фоне -->
+        <div class="stars-bg">
+            <div class="star" style="--x: 10%; --y: 20%; --d: 1s; --s: 1.5rem;">⭐</div>
+            <div class="star" style="--x: 25%; --y: 15%; --d: 1.5s; --s: 1rem;">🌟</div>
+            <div class="star" style="--x: 45%; --y: 30%; --d: 0.8s; --s: 2rem;">✨</div>
+            <div class="star" style="--x: 65%; --y: 10%; --d: 2s; --s: 1.2rem;">⭐</div>
+            <div class="star" style="--x: 80%; --y: 25%; --d: 1.2s; --s: 1.8rem;">🌟</div>
+            <div class="star" style="--x: 90%; --y: 50%; --d: 1.8s; --s: 1rem;">✨</div>
+            <div class="star" style="--x: 15%; --y: 60%; --d: 2.2s; --s: 1.4rem;">🌟</div>
+            <div class="star" style="--x: 35%; --y: 70%; --d: 1.1s; --s: 1.6rem;">⭐</div>
+            <div class="star" style="--x: 75%; --y: 65%; --d: 1.7s; --s: 2.2rem;">✨</div>
+            <div class="star" style="--x: 85%; --y: 80%; --d: 0.9s; --s: 1.3rem;">⭐</div>
+            <div class="star" style="--x: 5%; --y: 85%; --d: 2.5s; --s: 1.5rem;">🌟</div>
+            <div class="star" style="--x: 50%; --y: 85%; --d: 1.4s; --s: 1.8rem;">✨</div>
+        </div>
+
+        <div class="final-slide-content">
+            <svg class="chest-svg" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="100" cy="150" rx="80" ry="10" fill="rgba(0,0,0,0.15)"/>
+                <path d="M 20 70 Q 100 10 180 70 L 180 80 L 20 80 Z" fill="var(--wood-dark)"/>
+                <rect x="20" y="80" width="160" height="60" rx="5" fill="var(--wood)"/>
+                <path d="M 20 80 Q 100 20 180 80 L 180 90 Q 100 30 20 90 Z" fill="#a06a35"/>
+                <rect x="20" y="90" width="160" height="6" fill="#555" opacity="0.8"/>
+                <rect x="20" y="130" width="160" height="6" fill="#555" opacity="0.8"/>
+                <rect x="40" y="80" width="10" height="60" fill="#555" opacity="0.8"/>
+                <rect x="150" y="80" width="10" height="60" fill="#555" opacity="0.8"/>
+                <rect x="85" y="80" width="30" height="30" rx="4" fill="var(--gold)"/>
+                <path d="M 90 80 L 90 65 Q 100 55 110 65 L 110 80" fill="none" stroke="#b8960c" stroke-width="6"/>
+                <circle cx="100" cy="92" r="4" fill="#333"/>
+                <rect x="98" y="92" width="4" height="8" fill="#333"/>
+                <rect x="88" y="82" width="4" height="10" rx="2" fill="#fff" opacity="0.6"/>
+            </svg>
+            
+            <div class="final-text">
+                <span class="stars">🌟 ⭐ 🌟</span>
+                Сундук открыт!<br>
+                Спасибо за отличную работу!
+            </div>
+            
+            <!-- Блок с продолжением -->
+            <div class="next-quarter">
+                <p style="font-size: 1.2rem; color: var(--orange-dark); font-weight: bold; margin-bottom: 8px;">
+                    🚀 Продолжение следует...
+                </p>
+                <p style="font-size: 1rem; color: #666;">
+                    В следующей четверти героев ждут новые испытания, неизведанные земли и еще больше математических загадок. До встречи!
+                </p>
+            </div>
+
+            <p style="margin-top: 20px; font-size: 1rem; color: #888;">Не забудьте сдать тетрадь на платформу Umaclass</p>
+        </div>
+    </div>
+
+    <!-- Стрелки навигации -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>⬅</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">➡</button>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+        showSlide(currentSlide);
+    }
+
+    // Управление с клавиатуры
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            if (currentSlide < slides.length - 1) changeSlide(1);
+        } else if (e.key === 'ArrowLeft') {
+            if (currentSlide > 0) changeSlide(-1);
+        }
+    });
+</script>
+
+</body>
+</html>
