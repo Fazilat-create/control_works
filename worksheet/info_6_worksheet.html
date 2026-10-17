@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Квест: Битва с Вирусом Хаоса (Рабочий лист)</title>
+    <style>
+        :root {
+            --purple: #8e44ad;
+            --purple-light: #f4ecf7;
+            --blue: #2980b9;
+            --blue-light: #eaf2f8;
+            --text: #2c3e50;
+            --white: #ffffff;
+            --orange: #e67e22;
+            --red: #e74c3c;
+            --green: #27ae60;
+            --pink: #f8bbd0;
+            --bg: #f9f9f9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, sans-serif;
+            background: #ecf0f1;
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+        .worksheet {
+            max-width: 950px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(142, 68, 173, 0.15);
+            overflow: hidden;
+            border: 4px solid var(--purple);
+            padding-bottom: 40px;
+        }
+        
+        /* Шапка */
+        .header {
+            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        h1 { font-size: 2rem; margin-bottom: 10px; text-shadow: 2px 2px 0 rgba(0,0,0,0.2); }
+        .subtitle { font-size: 1.1rem; opacity: 0.9; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; display: inline-block; font-weight: bold; }
+        
+        /* Сюжет */
+        .story {
+            background: var(--purple-light);
+            border: 3px dashed var(--purple);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 30px;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .story svg { flex-shrink: 0; width: 60px; height: 60px;}
+        
+        /* Задания */
+        .task-block {
+            margin: 0 30px 25px;
+            border: 2px solid #dcdde1;
+            border-radius: 15px;
+            overflow: hidden;
+            page-break-inside: avoid;
+            background: var(--white);
+        }
+        .task-header {
+            background: var(--bg);
+            padding: 12px 20px;
+            display: flex; align-items: center; gap: 12px;
+            border-bottom: 2px dashed #bdc3c7;
+        }
+        .task-num {
+            background: var(--blue); color: white;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem; flex-shrink: 0;
+        }
+        .task-num.bonus { background: var(--orange); }
+        .task-header h2 { font-size: 1.3rem; color: var(--blue); }
+        .task-body { padding: 20px; font-size: 1.1rem; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        
+        /* Поля ответов */
+        .answer-space { height: 60px; border-bottom: 1.5px dashed #bdc3c7; margin-bottom: 15px; }
+        .answer-line { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+        .answer-line span { border-bottom: 1.5px solid #999; flex-grow: 1; margin-left: 10px; height: 25px; }
+        .short-line { border-bottom: 1.5px solid #999; display: inline-block; width: 80px; height: 20px; margin: 0 5px; }
+
+        /* Диаграммы */
+        .diagram-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .diagram-box { background: #fff; border: 1.5px solid #ddd; border-radius: 10px; padding: 10px; text-align: center; }
+
+        /* Схема уровней */
+        .levels-container { display: flex; flex-direction: column; gap: 5px; align-items: center; margin: 10px 0; }
+        .level-row {
+            display: flex; align-items: center;
+            width: 100%; background: #fff; border: 2px dashed var(--blue); border-radius: 10px;
+            padding: 10px 15px;
+        }
+        .level-row.system { border: 3px solid var(--purple); background: var(--purple-light); font-weight: bold; justify-content: center; }
+        .arrow-down { font-size: 1.2rem; color: var(--blue); line-height: 1; margin: 2px 0; }
+        
+        /* Сортировка систем */
+        .system-grid { display: flex; gap: 15px; margin-top: 10px; }
+        .system-col {
+            flex: 1;
+            border: 2px dashed;
+            border-radius: 10px;
+            padding: 10px;
+            min-height: 80px;
+        }
+        .system-col.green { border-color: var(--green); background: #eafaf1; }
+        .system-col.blue { border-color: var(--blue); background: #eaf2f8; }
+        .system-col p { font-weight: bold; margin-bottom: 5px; }
+
+        /* Дом */
+        .diagram-house { width: 100%; max-width: 100%; height: auto; display: block; }
+        .stroke-main { stroke: #333; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+        .stroke-thin { stroke: #333; stroke-width: 1.5; stroke-linejoin: round; }
+        .fill-roof { fill: #fce4ec; }       
+        .fill-wall { fill: #f8bbd0; } 
+        .fill-door { fill: #d81b60; }       
+        .fill-window { fill: #ffffff; }     
+        .fill-glass { fill: #fce4ec; }      
+        .fill-base { fill: #e0e0e0; }       
+        .line-connect { stroke: #333; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+        .label-text { font-family: 'Segoe UI', sans-serif; font-size: 14px; fill: #333; font-weight: bold; text-anchor: middle; }
+
+        /* Алгоритм */
+        .algo-container { display: flex; gap: 15px; align-items: center; justify-content: space-between; }
+        .diagram-wrapper { flex: 0 0 320px; }
+        .flowchart-svg { width: 100%; height: auto; max-height: 400px; }
+        .shape { fill: var(--pink); stroke: #333; stroke-width: 2; }
+        .shape-white { fill: #fff; stroke: #333; stroke-width: 2; }
+        .text-label { font-family: inherit; font-size: 14px; text-anchor: middle; dominant-baseline: middle; font-weight: bold;}
+        .arrow-line { stroke: #333; stroke-width: 2; fill: none; }
+        
+        /* Стили для правильных таблиц (Задание 10) */
+        .table-wrapper { flex: 1; max-width: 450px; }
+        
+        .algo-table, .letters-table, .answer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            table-layout: fixed; /* Жестко фиксируем ширину колонок */
+        }
+        .algo-table th, .algo-table td, 
+        .letters-table td, 
+        .answer-table td {
+            border: 2px solid #333;
+            height: 35px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 0;
+        }
+        /* Задаем ширину первой колонки, остальные равномерно */
+        .algo-table th.col-a, .letters-table td.empty, .answer-table td.empty { width: 40px; }
+        .algo-table th.col-a {
+            background-color: var(--pink);
+        }
+        
+        .letters-table td {
+            background-color: var(--pink);
+        }
+        .letters-table td.empty, .answer-table td.empty {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Блок Umaclass */
+        .umaclass-notice {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+        .umaclass-notice h3 {
+            color: #856404;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .umaclass-notice p {
+            color: #856404;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body { background: #fff; padding: 0; }
+            .worksheet { box-shadow: none; border: none; max-width: 100%; }
+            .task-block { page-break-inside: avoid; border-color: #999; }
+            .header { background: #f4f6f9 !important; color: #333 !important; border-bottom: 2px solid #999; }
+            .story { background: #fff !important; border-color: #999; }
+            .task-header { background: #f9f9f9 !important; }
+            .task-num { background: #333 !important; color: #fff !important; }
+            .umaclass-notice { background: #fff !important; border: 3px dashed #333 !important; color: #333 !important; }
+            .umaclass-notice h3, .umaclass-notice p { color: #333 !important; }
+            .algo-table th.col-a, .letters-table td { background-color: #eee !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="worksheet">
+    <div class="header">
+        <h1>Секретная миссия</h1>
+        <div class="subtitle">Битва с Вирусом Хаоса</div>
+    </div>
+
+    <div class="story">
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#e74c3c"/>
+            <path d="M 30 30 L 70 70 M 70 30 L 30 70" stroke="white" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="40" cy="40" r="5" fill="white"/>
+            <circle cx="60" cy="40" r="5" fill="white"/>
+        </svg>
+        <div>
+            <b>Внимание! Тревога!</b> Вирус Хаоса пробрался в Библиотеку Знаний и перепутал все данные! Я — УмаФлешка, хранительница библиотеки, не справлюсь одна. Помогите мне пройти 10 испытаний, обезвредить Вирус и восстановить порядок! Вперед, юные хакеры! (Все решения записывайте в тетрадь).
+        </div>
+    </div>
+
+    <!-- Задание 1 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">1</div>
+            <h2>Назови элементы множеств</h2>
+        </div>
+        <div class="task-body">
+            <p>а) Назови 5 элементов множества видов ягод.</p>
+            <div class="answer-space"></div>
+            <p>б) Назови 3 элемента множества видов грибов.</p>
+            <div class="answer-space"></div>
+            <p>в) Назови 4 элемента множества видов растений.</p>
+            <div class="answer-space"></div>
+        </div>
+    </div>
+
+    <!-- Задание 2 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">2</div>
+            <h2>Задай множество общим свойством</h2>
+        </div>
+        <div class="task-body">
+            <p>а) A = {0; 1; 2; 3; 4; 5; 6; 7; 8; 9} — множество...</p>
+            <div class="answer-line"><span></span></div>
+            <p>б) B = {0; 2; 4; 6; 8} — множество...</p>
+            <div class="answer-line"><span></span></div>
+            <p>в) C = {а; я; у; ю; э; е; о; ё; ы; и} — множество...</p>
+            <div class="answer-line"><span></span></div>
+        </div>
+    </div>
+
+    <!-- Задание 3 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">3</div>
+            <h2>Задай множество перечислением</h2>
+        </div>
+        <div class="task-body">
+            <p>а) A — множество букв в слове «крот».</p>
+            <div class="answer-line"><span></span></div>
+            <p>б) B — множество нечётных однозначных чисел.</p>
+            <div class="answer-line"><span></span></div>
+            <p>в) C — множество двузначных чисел, кратных 10.</p>
+            <div class="answer-line"><span></span></div>
+            <p>г) D — множество трёхзначных чисел, больших 603, но меньших 608.</p>
+            <div class="answer-line"><span></span></div>
+        </div>
+    </div>
+
+    <!-- Задание 4 (Диаграммы) -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">4</div>
+            <h2>Определи подмножество по рисунку</h2>
+        </div>
+        <div class="task-body">
+            <div class="diagram-grid">
+                <div class="diagram-box">
+                    <svg viewBox="0 0 200 140" width="100%">
+                        <ellipse cx="100" cy="70" rx="80" ry="55" fill="none" stroke="#8e44ad" stroke-width="3"/>
+                        <ellipse cx="100" cy="70" rx="40" ry="25" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        <text x="160" y="40" fill="#8e44ad" font-weight="bold" font-size="20">P</text>
+                        <text x="100" y="75" fill="#2980b9" font-weight="bold" font-size="18" text-anchor="middle">M</text>
+                    </svg>
+                    <p>а) P и M: <span class="short-line"></span></p>
+                </div>
+                <div class="diagram-box">
+                    <svg viewBox="0 0 200 140" width="100%">
+                        <ellipse cx="80" cy="70" rx="60" ry="45" fill="none" stroke="#8e44ad" stroke-width="3"/>
+                        <ellipse cx="80" cy="70" rx="30" ry="20" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        <ellipse cx="150" cy="80" rx="30" ry="20" fill="none" stroke="#27ae60" stroke-width="3"/>
+                        <text x="120" y="40" fill="#8e44ad" font-weight="bold" font-size="18">K</text>
+                        <text x="80" y="75" fill="#2980b9" font-weight="bold" font-size="16" text-anchor="middle">F</text>
+                        <text x="150" y="85" fill="#27ae60" font-weight="bold" font-size="16" text-anchor="middle">E</text>
+                    </svg>
+                    <p>б) K, F и E: <span class="short-line"></span></p>
+                </div>
+                <div class="diagram-box">
+                    <svg viewBox="0 0 200 140" width="100%">
+                        <ellipse cx="100" cy="70" rx="80" ry="50" fill="none" stroke="#8e44ad" stroke-width="3"/>
+                        <ellipse cx="70" cy="70" rx="40" ry="30" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        <ellipse cx="130" cy="70" rx="40" ry="30" fill="none" stroke="#27ae60" stroke-width="3"/>
+                        <text x="150" y="40" fill="#8e44ad" font-weight="bold" font-size="18">C</text>
+                        <text x="70" y="75" fill="#2980b9" font-weight="bold" font-size="16" text-anchor="middle">A</text>
+                        <text x="130" y="75" fill="#27ae60" font-weight="bold" font-size="16" text-anchor="middle">B</text>
+                    </svg>
+                    <p>в) C, A и B: <span class="short-line"></span></p>
+                </div>
+                <div class="diagram-box">
+                    <svg viewBox="0 0 200 140" width="100%">
+                        <ellipse cx="100" cy="70" rx="80" ry="50" fill="none" stroke="#8e44ad" stroke-width="3"/>
+                        <path d="M 100 20 Q 80 70 100 120" fill="none" stroke="#2980b9" stroke-width="3"/>
+                        <text x="150" y="40" fill="#8e44ad" font-weight="bold" font-size="18">D</text>
+                        <text x="60" y="75" fill="#2980b9" font-weight="bold" font-size="16" text-anchor="middle">S</text>
+                        <text x="140" y="75" fill="#2980b9" font-weight="bold" font-size="16" text-anchor="middle">T</text>
+                    </svg>
+                    <p>г) D, S и T: <span class="short-line"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задание 5 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">5</div>
+            <h2>Принадлежность элемента</h2>
+        </div>
+        <div class="task-body">
+            <p>D — множество двузначных чисел.</p>
+            <p>а) Запиши с помощью знаков ∈ и ∉, являются ли числа 26, 307, 8, 940, 15, 60 элементами множества D.</p>
+            <p style="font-family: monospace; font-size: 1.2rem;">26 . . . D &nbsp;&nbsp;&nbsp; 307 . . . D &nbsp;&nbsp;&nbsp; 8 . . . D &nbsp;&nbsp;&nbsp; 940 . . . D &nbsp;&nbsp;&nbsp; 15 . . . D &nbsp;&nbsp;&nbsp; 60 . . . D</p>
+            <div class="answer-space"></div>
+            <p>б) Самое маленькое и самое большое число, принадлежащее D:</p>
+            <div class="answer-line"><span></span></div>
+            <p>в) Сколько элементов содержит D?</p>
+            <div class="answer-line"><span></span></div>
+        </div>
+    </div>
+
+    <!-- Задание 6 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">6</div>
+            <h2>Отношения между объектами</h2>
+        </div>
+        <div class="task-body">
+            <p>Определи вид отношения (входит в состав / разновидность / элемент):</p>
+            <div class="grid-2">
+                <p>1) Колесо — машина: <span class="short-line"></span></p>
+                <p>2) Яблоко — фрукт: <span class="short-line"></span></p>
+                <p>3) 5 — {1, 3, 5}: <span class="short-line"></span></p>
+                <p>4) Крыша — дом: <span class="short-line"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задание 7 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">7</div>
+            <h2>Диаграммы Эйлера-Венна (Мода)</h2>
+        </div>
+        <div class="task-body">
+            <p><b>M</b> — множество всех девочек, <b>П</b> — множество тех, кто умеет плести косички, <b>Ш</b> — множество тех, кто умеет шить одежду. Составь диаграмму Эйлера-Венна множеств M, П и Ш. Запиши с помощью знака ⊂, какое из множеств является подмножеством другого.</p>
+            <div class="answer-space" style="height: 120px;"></div>
+        </div>
+    </div>
+
+    <!-- Задание 8 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">8</div>
+            <h2>Виды систем</h2>
+        </div>
+        <div class="task-body">
+            <p>Распредели на Природные и Технические:</p>
+            <p style="font-style: italic;">Солнечная система, Велосипед, Дерево, Смартфон, Организм человека, Кукольный домик.</p>
+            <div class="system-grid">
+                <div class="system-col green">
+                    <p>Природные:</p>
+                </div>
+                <div class="system-col blue">
+                    <p>Технические:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задание 9 -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">9</div>
+            <h2>Многоуровневая схема</h2>
+        </div>
+        <div class="task-body">
+            <p>Дострой уровни для системы <b>«Шкаф с одеждой»</b>:</p>
+            <div class="levels-container">
+                <div class="level-row">
+                    <span><b>Надсистема:</b></span>
+                    <span style="flex-grow: 1; border-bottom: 1.5px dashed #999; margin-left: 10px;"></span>
+                </div>
+                <div class="arrow-down">⬇️</div>
+                <div class="level-row system">
+                    Система: Шкаф с одеждой
+                </div>
+                <div class="arrow-down">⬇️</div>
+                <div class="level-row">
+                    <span><b>Подсистемы:</b></span>
+                    <span style="flex-grow: 1; border-bottom: 1.5px dashed #999; margin-left: 10px;"></span>
+                </div>
+                <div class="arrow-down">⬇️</div>
+                <div class="level-row">
+                    <span><b>Компоненты:</b></span>
+                    <span style="flex-grow: 1; border-bottom: 1.5px dashed #999; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задание 10 (Творческое) -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num">10</div>
+            <h2>Творческое задание: Разбей объект на части</h2>
+        </div>
+        <div class="task-body">
+            <p><b>Выберите любой объект и разбейте его на составляющие.</b> Нарисуйте схему в тетради. <i>Пример ниже показывает, как представить состав объекта «Дом».</i></p>
+            <div style="background: #fff; border: 2px solid #ddd; border-radius: 15px; padding: 10px;">
+                <svg class="diagram-house" viewBox="0 0 1000 800" style="width: 100%; height: auto;" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(400, 20)">
+                        <polygon points="10,60 100,0 190,60" class="fill-roof stroke-main"/>
+                        <rect x="10" y="60" width="180" height="110" class="fill-wall stroke-main"/>
+                        <rect x="0" y="170" width="200" height="15" class="fill-base stroke-main"/>
+                        <rect x="30" y="80" width="45" height="40" class="fill-window stroke-main"/>
+                        <rect x="33" y="83" width="18" height="34" class="fill-glass stroke-thin"/>
+                        <rect x="54" y="83" width="18" height="34" class="fill-glass stroke-thin"/>
+                        <rect x="120" y="75" width="45" height="95" class="fill-window stroke-main"/>
+                        <rect x="123" y="78" width="39" height="89" class="fill-door stroke-thin"/>
+                        <rect x="120" y="90" width="6" height="6" class="fill-window stroke-thin"/>
+                        <rect x="120" y="150" width="6" height="6" class="fill-window stroke-thin"/>
+                        <rect x="120" y="120" width="6" height="6" class="fill-window stroke-thin"/>
+                    </g>
+                    <line x1="590" y1="50" x2="680" y2="40" class="line-connect"/>
+                    <line x1="590" y1="180" x2="680" y2="200" class="line-connect"/>
+                    <line x1="410" y1="160" x2="280" y2="200" class="line-connect"/>
+                    <g transform="translate(680, 10)">
+                        <polygon points="10,60 100,0 190,60" class="fill-roof stroke-main"/>
+                        <text x="100" y="85" class="label-text">Крыша</text>
+                    </g>
+                    <g transform="translate(680, 185)">
+                        <rect x="0" y="0" width="200" height="15" class="fill-base stroke-main"/>
+                        <text x="100" y="40" class="label-text">Основание (Фундамент)</text>
+                    </g>
+                    <g transform="translate(80, 200)">
+                        <text x="90" y="-15" class="label-text">Каркас</text>
+                        <rect x="0" y="0" width="180" height="110" class="fill-wall stroke-main"/>
+                        <rect x="20" y="25" width="45" height="40" class="fill-window stroke-main"/>
+                        <rect x="23" y="28" width="18" height="34" class="fill-glass stroke-thin"/>
+                        <rect x="44" y="28" width="18" height="34" class="fill-glass stroke-thin"/>
+                        <rect x="120" y="15" width="45" height="95" class="fill-window stroke-main"/>
+                        <rect x="123" y="18" width="39" height="89" class="fill-door stroke-thin"/>
+                    </g>
+                    <line x1="100" y1="310" x2="80" y2="400" class="line-connect"/>
+                    <line x1="200" y1="310" x2="380" y2="400" class="line-connect"/>
+                    <g transform="translate(40, 400)">
+                        <rect x="0" y="0" width="100" height="70" class="fill-window stroke-main"/>
+                        <rect x="10" y="10" width="35" height="50" class="fill-glass stroke-thin"/>
+                        <rect x="55" y="10" width="35" height="50" class="fill-glass stroke-thin"/>
+                        <text x="50" y="95" class="label-text">Окно</text>
+                    </g>
+                    <line x1="70" y1="470" x2="60" y2="550" class="line-connect"/>
+                    <line x1="130" y1="470" x2="150" y2="550" class="line-connect"/>
+                    <g transform="translate(20, 550)">
+                        <rect x="0" y="0" width="80" height="60" class="fill-window stroke-main" stroke-width="3"/>
+                        <rect x="5" y="5" width="33" height="50" fill="none" class="stroke-main"/>
+                        <rect x="42" y="5" width="33" height="50" fill="none" class="stroke-main"/>
+                        <text x="40" y="85" class="label-text">Рама</text>
+                    </g>
+                    <g transform="translate(120, 550)">
+                        <rect x="0" y="0" width="50" height="60" class="fill-glass stroke-main"/>
+                        <line x1="10" y1="50" x2="25" y2="10" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="18" y1="50" x2="33" y2="10" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                        <text x="25" y="85" class="label-text">Стекло</text>
+                    </g>
+                    <g transform="translate(350, 400)">
+                        <text x="40" y="-15" class="label-text">Дверь</text>
+                        <rect x="0" y="0" width="80" height="110" class="fill-window stroke-main"/>
+                        <rect x="5" y="5" width="70" height="100" class="fill-door stroke-thin"/>
+                        <rect x="0" y="20" width="8" height="8" class="fill-window stroke-thin"/>
+                        <rect x="0" y="80" width="8" height="8" class="fill-window stroke-thin"/>
+                    </g>
+                    <line x1="370" y1="510" x2="320" y2="580" class="line-connect"/>
+                    <line x1="390" y1="510" x2="390" y2="580" class="line-connect"/>
+                    <line x1="410" y1="510" x2="460" y2="580" class="line-connect"/>
+                    <g transform="translate(300, 580)">
+                        <rect x="0" y="0" width="30" height="30" class="fill-window stroke-main"/>
+                        <rect x="0" y="8" width="8" height="6" class="fill-base stroke-thin"/>
+                        <rect x="0" y="18" width="8" height="6" class="fill-base stroke-thin"/>
+                        <text x="15" y="55" class="label-text">Петли</text>
+                    </g>
+                    <g transform="translate(370, 580)">
+                        <rect x="0" y="0" width="60" height="85" class="fill-door stroke-main"/>
+                        <text x="30" y="110" class="label-text">Полотно</text>
+                    </g>
+                    <g transform="translate(460, 580)">
+                        <rect x="0" y="20" width="40" height="30" class="fill-base stroke-main"/>
+                        <path d="M 10,20 Q 10,0 20,0 Q 30,0 30,20" fill="none" class="stroke-main" stroke-width="3"/>
+                        <circle cx="20" cy="35" r="4" fill="#333" />
+                        <text x="20" y="75" class="label-text">Замок</text>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Задание 11 (Алгоритм) -->
+    <div class="task-block">
+        <div class="task-header">
+            <div class="task-num bonus">⭐</div>
+            <h2>Финальный шифр (Задание со звёздочкой)</h2>
+        </div>
+        <div class="task-body">
+            <p><b>Задание:</b> Пользуясь алгоритмом, найди значения x, расположи их в порядке убывания, сопоставь буквам и расшифруй слово.</p>
+            <div class="algo-container">
+                <!-- Блок-схема -->
+                <div class="diagram-wrapper">
+                    <svg class="flowchart-svg" viewBox="0 0 300 400">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                        <rect x="100" y="10" width="100" height="40" rx="20" class="shape" />
+                        <text x="150" y="30" class="text-label" style="font-style: italic;">a</text>
+                        <line x1="150" y1="50" x2="150" y2="80" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <rect x="110" y="80" width="80" height="40" class="shape-white" />
+                        <text x="150" y="100" class="text-label">· 10</text>
+                        <line x1="150" y1="120" x2="150" y2="150" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <polygon points="150,150 220,190 150,230 80,190" class="shape-white" />
+                        <text x="150" y="190" class="text-label">&gt; 100?</text>
+                        <line x1="80" y1="190" x2="50" y2="190" class="arrow-line" />
+                        <line x1="50" y1="190" x2="50" y2="240" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <text x="65" y="180" class="text-label">да</text>
+                        <rect x="10" y="240" width="80" height="40" class="shape-white" />
+                        <text x="50" y="260" class="text-label">- 76</text>
+                        <line x1="220" y1="190" x2="250" y2="190" class="arrow-line" />
+                        <line x1="250" y1="190" x2="250" y2="240" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <text x="235" y="180" class="text-label">нет</text>
+                        <rect x="210" y="240" width="80" height="40" class="shape-white" />
+                        <text x="250" y="260" class="text-label">+ 39</text>
+                        <line x1="50" y1="280" x2="50" y2="330" class="arrow-line" />
+                        <line x1="50" y1="330" x2="110" y2="330" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <line x1="250" y1="280" x2="250" y2="330" class="arrow-line" />
+                        <line x1="250" y1="330" x2="190" y2="330" class="arrow-line" marker-end="url(#arrowhead)"/>
+                        <rect x="110" y="310" width="80" height="40" rx="20" class="shape" />
+                        <text x="150" y="330" class="text-label" style="font-style: italic;">x</text>
+                    </svg>
+                </div>
+                <!-- Таблица -->
+                <div class="table-wrapper">
+                    <table class="algo-table">
+                        <tr>
+                            <th class="col-a">a</th>
+                            <td>4</td><td>8</td><td>10</td><td>15</td><td>25</td><td>37</td>
+                        </tr>
+                        <tr>
+                            <th class="col-a">x</th>
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                    </table>
+                    
+                    <table class="letters-table">
+                        <tr>
+                            <td class="empty"></td>
+                            <td>Р</td><td>У</td><td>Н</td><td>Т</td><td>А</td><td>С</td>
+                        </tr>
+                    </table>
+
+                    <table class="answer-table">
+                        <tr>
+                            <td class="empty"></td>
+                            <td></td><td></td><td></td><td></td><td></td><td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок Umaclass -->
+    <div class="umaclass-notice">
+        <h3>📤 Внимание! Сдача работы</h3>
+        <p>Не забудьте сфотографировать решения из тетради и отправить их на платформу <b>Umaclass</b> до конца урока!</p>
+    </div>
+
+    <div class="footer-note" style="text-align: center; font-size: 1.2rem; color: var(--orange); font-weight: bold; margin-top: 20px;">
+        🎉 Спасибо за помощь, юные хакеры! Вы спасли библиотеку!
+    </div>
+
+</div>
+</body>
+</html>
