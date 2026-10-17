@@ -14,7 +14,6 @@
             --orange: #e67e22;
             --red: #e74c3c;
             --green: #27ae60;
-            --pink: #f8bbd0;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -54,10 +53,7 @@
             letter-spacing: 1px;
             text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
         }
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
+        .header p { font-size: 1.2rem; opacity: 0.9; }
 
         /* Кнопка Назад */
         .back-btn {
@@ -75,10 +71,7 @@
             transition: 0.2s;
             font-family: inherit;
         }
-        .back-btn:hover {
-            background: rgba(255,255,255,0.4);
-            transform: scale(1.05);
-        }
+        .back-btn:hover { background: rgba(255,255,255,0.4); transform: scale(1.05); }
 
         /* Сетка с предметами */
         .subjects-grid {
@@ -88,7 +81,6 @@
             padding: 40px;
         }
 
-        /* Карточка предмета */
         .subject-card {
             background: var(--bg);
             border-radius: 20px;
@@ -101,8 +93,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            overflow: hidden;
             cursor: pointer;
         }
 
@@ -113,27 +103,10 @@
             background: #fff;
         }
 
-        .subject-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--purple);
-        }
-
-        .subject-card p {
-            font-size: 1rem;
-            color: #7f8c8d;
-            margin-bottom: 15px;
-        }
-
-        .icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            transition: transform 0.3s;
-        }
-
-        .subject-card:hover .icon {
-            transform: scale(1.1) rotate(5deg);
-        }
+        .subject-card h2 { font-size: 1.5rem; margin-bottom: 10px; color: var(--purple); }
+        .subject-card p { font-size: 1rem; color: #7f8c8d; margin-bottom: 15px; }
+        .icon { font-size: 3.5rem; margin-bottom: 15px; transition: transform 0.3s; }
+        .subject-card:hover .icon { transform: scale(1.1) rotate(5deg); }
 
         .btn {
             background: var(--blue);
@@ -145,16 +118,12 @@
             margin-top: auto;
             transition: background 0.3s;
         }
-        
-        .subject-card:hover .btn {
-            background: var(--purple);
-        }
+        .subject-card:hover .btn { background: var(--purple); }
 
         .subject-card.math { border-bottom: 6px solid var(--orange); }
         .subject-card.info { border-bottom: 6px solid var(--blue); }
         .subject-card.vis { border-bottom: 6px solid var(--green); }
         .subject-card.algebra { border-bottom: 6px solid var(--red); }
-
         .subject-card.math .btn { background: var(--orange); }
         .subject-card.info .btn { background: var(--blue); }
         .subject-card.vis .btn { background: var(--green); }
@@ -167,24 +136,10 @@
             text-align: center;
             animation: fadeIn 0.4s ease;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .format-title {
-            font-size: 1.8rem;
-            color: var(--purple);
-            margin-bottom: 30px;
-        }
-
-        .format-cards {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
+        .format-title { font-size: 1.8rem; color: var(--purple); margin-bottom: 30px; }
+        .format-cards { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 
         .format-card {
             background: var(--bg);
@@ -207,21 +162,9 @@
             transform: translateY(-5px);
         }
 
-        .format-card .icon {
-            font-size: 4rem;
-            margin-bottom: 15px;
-        }
-
-        .format-card h3 {
-            font-size: 1.3rem;
-            color: var(--blue);
-            margin-bottom: 10px;
-        }
-
-        .format-card p {
-            font-size: 0.95rem;
-            color: #7f8c8d;
-        }
+        .format-card .icon { font-size: 4rem; margin-bottom: 15px; }
+        .format-card h3 { font-size: 1.3rem; color: var(--blue); margin-bottom: 10px; }
+        .format-card p { font-size: 0.95rem; color: #7f8c8d; }
 
         /* Подвал */
         .footer {
@@ -233,7 +176,7 @@
             border-top: 1px solid #dcdde1;
         }
 
-        /* Модальное окно "В разработке" */
+        /* Модальное окно */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -300,19 +243,20 @@
             <div class="btn">Выбрать формат</div>
         </div>
 
-        <a href="presentations/vis_8_test.html" class="subject-card vis" onclick="checkLink(event, 'presentations/vis_8_test.html')">
+        <!-- Прямые ссылки на ВИС и Алгебру -->
+        <div class="subject-card vis" onclick="checkLinkAndOpen(event, 'presentations/vis_8_test.html')">
             <div class="icon">🕌</div>
             <h2>ВИС (8 класс)</h2>
             <p>Проверочная работа по предмету ВИС</p>
             <div class="btn">Открыть работу</div>
-        </a>
+        </div>
 
-        <a href="presentations/algebra_8_test.html" class="subject-card algebra" onclick="checkLink(event, 'presentations/algebra_8_test.html')">
+        <div class="subject-card algebra" onclick="checkLinkAndOpen(event, 'presentations/algebra_8_test.html')">
             <div class="icon">📐</div>
             <h2>Алгебра (8 класс)</h2>
             <p>Контрольная работа по алгебре</p>
             <div class="btn">Открыть работу</div>
-        </a>
+        </div>
 
     </div>
 
@@ -321,19 +265,17 @@
         <div class="format-title" id="formatTitle">Выберите формат</div>
         
         <div class="format-cards">
-            <!-- Презентация -->
-            <a href="#" id="presentationLink" class="format-card" onclick="checkLink(event, this.href)">
+            <div id="presentationCard" class="format-card" onclick="checkLinkAndOpen(event, document.getElementById('presentationCard').dataset.url)">
                 <div class="icon">🖥️</div>
                 <h3>Презентация</h3>
                 <p>Для показа на экране или интерактивной доске</p>
-            </a>
+            </div>
 
-            <!-- Рабочий лист -->
-            <a href="#" id="worksheetLink" class="format-card" onclick="checkLink(event, this.href)">
+            <div id="worksheetCard" class="format-card" onclick="checkLinkAndOpen(event, document.getElementById('worksheetCard').dataset.url)">
                 <div class="icon">📝</div>
                 <h3>Рабочий лист</h3>
                 <p>Для распечатки и выполнения заданий на бумаге</p>
-            </a>
+            </div>
         </div>
     </div>
 
@@ -342,7 +284,7 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО (Заглушка для отсутствующих файлов) -->
+<!-- МОДАЛЬНОЕ ОКНО -->
 <div class="modal-overlay" id="devModal">
     <div class="modal-content">
         <h3>🚧 В разработке</h3>
@@ -352,7 +294,7 @@
 </div>
 
 <script>
-    // Ссылки на файлы (с учетом папок)
+    // Ссылки на файлы (с учетом папок в репозитории)
     const files = {
         'math': {
             title: 'Математика (6 класс)',
@@ -366,18 +308,21 @@
         }
     };
 
+    // Переключение на меню выбора формата (Презентация / Рабочий лист)
     function showFormatMenu(subjectKey) {
         document.getElementById('mainMenu').style.display = 'none';
         document.getElementById('mainHeader').textContent = files[subjectKey].title;
         document.getElementById('subHeader').textContent = 'Выберите формат работы:';
         
-        document.getElementById('presentationLink').href = files[subjectKey].presentation;
-        document.getElementById('worksheetLink').href = files[subjectKey].worksheet;
+        // Записываем ссылки в data-атрибуты карточек
+        document.getElementById('presentationCard').dataset.url = files[subjectKey].presentation;
+        document.getElementById('worksheetCard').dataset.url = files[subjectKey].worksheet;
         
         document.getElementById('formatMenu').style.display = 'block';
         document.getElementById('backBtn').style.display = 'block';
     }
 
+    // Возврат в главное меню
     function showMainMenu() {
         document.getElementById('formatMenu').style.display = 'none';
         document.getElementById('mainHeader').textContent = '🎓 Портал знаний';
@@ -387,31 +332,39 @@
     }
 
     // ==========================================
-    // ЛОГИКА ПРОВЕРКИ НАЛИЧИЯ ФАЙЛА (ЗАГЛУШКА)
+    // АВТОМАТИЧЕСКАЯ ПРОВЕРКА ФАЙЛА (fetch)
     // ==========================================
-    // Поскольку в чистом HTML нельзя проверить наличие файла до клика, 
-    // мы используем список "готовых" файлов. 
-    // Если файла нет в этом списке — показываем модальное окно.
-    
-    const readyFiles = [
-        // Впишите сюда названия файлов, которые УЖЕ загружены в репозиторий
-        // Пример: 'presentations/math_6_kvest.html',
-        // 'worksheets/info_6_worksheet.html'
-    ];
-
-    function checkLink(event, url) {
-        // Предотвращаем переход по ссылке
-        event.preventDefault(); 
+    async function checkLinkAndOpen(event, url) {
+        // Если url не передан, ничего не делаем
+        if (!url) return;
         
-        // Если файл есть в списке готовых — переходим
-        if (readyFiles.includes(url)) {
-            window.open(url, '_blank');
-        } else {
-            // Иначе показываем окно "В разработке"
-            document.getElementById('devModal').style.display = 'flex';
+        event.preventDefault(); // Блокируем стандартный переход по ссылке
+
+        try {
+            // Пытаемся "постучаться" по ссылке (метод HEAD запрашивает только заголовки)
+            const response = await fetch(url, { method: 'HEAD' });
+            
+            // Если сервер ответил 200 (OK) — файл существует!
+            if (response.ok) {
+                window.open(url, '_blank');
+            } else {
+                // Если 404 (Not Found) или другая ошибка
+                showModal();
+            }
+        } catch (error) {
+            // Если произошла сетевая ошибка (например, при локальном запуске)
+            console.error('Ошибка проверки файла:', error);
+            // На всякий случай пробуем открыть (вдруг это локальный запуск)
+            window.open(url, '_blank'); 
         }
     }
 
+    // Показать окно "В разработке"
+    function showModal() {
+        document.getElementById('devModal').style.display = 'flex';
+    }
+
+    // Закрыть окно "В разработке"
     function closeModal() {
         document.getElementById('devModal').style.display = 'none';
     }
