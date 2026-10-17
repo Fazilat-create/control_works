@@ -37,6 +37,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.1);
             overflow: hidden;
             border: 4px solid var(--purple);
+            position: relative;
         }
 
         /* Шапка */
@@ -58,12 +59,34 @@
             opacity: 0.9;
         }
 
+        /* Кнопка Назад */
+        .back-btn {
+            display: none; /* Скрыта по умолчанию */
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+
         /* Сетка с предметами */
         .subjects-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 25px;
             padding: 40px;
+            transition: opacity 0.3s ease;
         }
 
         /* Карточка предмета */
@@ -81,6 +104,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .subject-card:hover {
@@ -140,6 +164,68 @@
         .subject-card.vis .btn { background: var(--green); }
         .subject-card.algebra .btn { background: var(--red); }
 
+        /* --- БЛОК ВЫБОРА ФОРМАТА (Скрытый по умолчанию) --- */
+        .format-selection {
+            display: none;
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .format-title {
+            font-size: 1.8rem;
+            color: var(--purple);
+            margin-bottom: 30px;
+        }
+
+        .format-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .format-card {
+            background: var(--bg);
+            border: 3px solid #dcdde1;
+            border-radius: 20px;
+            padding: 30px;
+            width: 280px;
+            text-decoration: none;
+            color: var(--text);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .format-card:hover {
+            border-color: var(--blue);
+            box-shadow: 0 10px 20px rgba(41, 128, 185, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .format-card .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .format-card h3 {
+            font-size: 1.3rem;
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+
+        .format-card p {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+        }
+
         /* Подвал */
         .footer {
             text-align: center;
@@ -152,10 +238,8 @@
 
         /* Адаптивность */
         @media (max-width: 768px) {
-            .subjects-grid {
-                grid-template-columns: 1fr;
-                padding: 20px;
-            }
+            .subjects-grid { grid-template-columns: 1fr; padding: 20px; }
+            .format-cards { flex-direction: column; align-items: center; }
             .header h1 { font-size: 1.8rem; }
         }
     </style>
@@ -164,29 +248,31 @@
 
 <div class="portal-container">
     <div class="header">
-        <h1>🎓 Портал знаний</h1>
-        <p>Выберите проверочную работу для вашего класса</p>
+        <button class="back-btn" id="backBtn" onclick="showMainMenu()">⬅ Назад</button>
+        <h1 id="mainHeader">🎓 Портал знаний</h1>
+        <p id="subHeader">Выберите проверочную работу для вашего класса</p>
     </div>
 
-    <div class="subjects-grid">
+    <!-- ГЛАВНОЕ МЕНЮ (Сетка предметов) -->
+    <div class="subjects-grid" id="mainMenu">
         
         <!-- КАРТОЧКА 1: Математика 6 класс -->
-        <a href="math_6_kvest.html" class="subject-card math">
+        <div class="subject-card math" onclick="showFormatMenu('math')">
             <div class="icon">🧮</div>
             <h2>Математика (6 класс)</h2>
             <p>Контрольная работа-квест «Путь к сундуку посланий»</p>
-            <div class="btn">Открыть работу</div>
-        </a>
+            <div class="btn">Выбрать формат</div>
+        </div>
 
         <!-- КАРТОЧКА 2: Информатика 6 класс -->
-        <a href="info_6_kvest.html" class="subject-card info">
+        <div class="subject-card info" onclick="showFormatMenu('info')">
             <div class="icon">💻</div>
             <h2>Информатика (6 класс)</h2>
             <p>Квест «Битва с Вирусом Хаоса» (Множества и Системы)</p>
-            <div class="btn">Открыть работу</div>
-        </a>
+            <div class="btn">Выбрать формат</div>
+        </div>
 
-        <!-- КАРТОЧКА 3: ВИС 8 класс -->
+        <!-- КАРТОЧКА 3: ВИС 8 класс (Ссылка напрямую) -->
         <a href="vis_8_test.html" class="subject-card vis">
             <div class="icon">🕌</div>
             <h2>ВИС (8 класс)</h2>
@@ -194,7 +280,7 @@
             <div class="btn">Открыть работу</div>
         </a>
 
-        <!-- КАРТОЧКА 4: Алгебра 8 класс -->
+        <!-- КАРТОЧКА 4: Алгебра 8 класс (Ссылка напрямую) -->
         <a href="algebra_8_test.html" class="subject-card algebra">
             <div class="icon">📐</div>
             <h2>Алгебра (8 класс)</h2>
@@ -204,10 +290,81 @@
 
     </div>
 
+    <!-- БЛОК ВЫБОРА ФОРМАТА (Показывается после клика) -->
+    <div class="format-selection" id="formatMenu">
+        <div class="format-title" id="formatTitle">Выберите формат</div>
+        
+        <div class="format-cards">
+            <!-- Презентация -->
+            <a href="#" id="presentationLink" class="format-card" target="_blank">
+                <div class="icon">🖥️</div>
+                <h3>Презентация</h3>
+                <p>Для показа на экране или интерактивной доске</p>
+            </a>
+
+            <!-- Рабочий лист -->
+            <a href="#" id="worksheetLink" class="format-card" target="_blank">
+                <div class="icon">📝</div>
+                <h3>Рабочий лист</h3>
+                <p>Для распечатки и выполнения заданий на бумаге</p>
+            </a>
+        </div>
+    </div>
+
     <div class="footer">
         <p>© УмаФлешка & Co. Успехов в учёбе! 🌟</p>
     </div>
 </div>
+
+<script>
+    // Ссылки на файлы
+    const files = {
+        'math': {
+            title: 'Математика (6 класс)',
+            presentation: 'math_6_kvest.html',
+            worksheet: 'math_6_worksheet.html' // Укажите название файла рабочего листа
+        },
+        'info': {
+            title: 'Информатика (6 класс)',
+            presentation: 'info_6_kvest.html',
+            worksheet: 'info_6_worksheet.html' // Укажите название файла рабочего листа
+        }
+    };
+
+    function showFormatMenu(subjectKey) {
+        // Скрываем главное меню
+        document.getElementById('mainMenu').style.display = 'none';
+        
+        // Меняем заголовки
+        document.getElementById('mainHeader').textContent = files[subjectKey].title;
+        document.getElementById('subHeader').textContent = 'Выберите формат работы:';
+        
+        // Настраиваем ссылки
+        document.getElementById('presentationLink').href = files[subjectKey].presentation;
+        document.getElementById('worksheetLink').href = files[subjectKey].worksheet;
+        
+        // Показываем блок форматов
+        document.getElementById('formatMenu').style.display = 'block';
+        
+        // Показываем кнопку "Назад"
+        document.getElementById('backBtn').style.display = 'block';
+    }
+
+    function showMainMenu() {
+        // Скрываем блок форматов
+        document.getElementById('formatMenu').style.display = 'none';
+        
+        // Возвращаем заголовки
+        document.getElementById('mainHeader').textContent = '🎓 Портал знаний';
+        document.getElementById('subHeader').textContent = 'Выберите проверочную работу для вашего класса';
+        
+        // Показываем главное меню
+        document.getElementById('mainMenu').style.display = 'grid';
+        
+        // Скрываем кнопку "Назад"
+        document.getElementById('backBtn').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
