@@ -176,40 +176,6 @@
             border-top: 1px solid #dcdde1;
         }
 
-        /* Модальное окно */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h3 { color: var(--purple); margin-bottom: 10px; font-size: 1.5rem; }
-        .modal-content p { color: #7f8c8d; margin-bottom: 20px; }
-        .modal-btn {
-            background: var(--purple);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
         @media (max-width: 768px) {
             .subjects-grid { grid-template-columns: 1fr; padding: 20px; }
             .format-cards { flex-direction: column; align-items: center; }
@@ -244,14 +210,14 @@
         </div>
 
         <!-- Прямые ссылки на ВИС и Алгебру -->
-        <div class="subject-card vis" onclick="checkLinkAndOpen(event, 'presentations/vis_8_test.html')">
+        <div class="subject-card vis" onclick="window.open('presentations/vis_8_test.html', '_blank')">
             <div class="icon">🕌</div>
             <h2>ВИС (8 класс)</h2>
             <p>Проверочная работа по предмету ВИС</p>
             <div class="btn">Открыть работу</div>
         </div>
 
-        <div class="subject-card algebra" onclick="checkLinkAndOpen(event, 'presentations/algebra_8_test.html')">
+        <div class="subject-card algebra" onclick="window.open('presentations/algebra_8_test.html', '_blank')">
             <div class="icon">📐</div>
             <h2>Алгебра (8 класс)</h2>
             <p>Контрольная работа по алгебре</p>
@@ -265,13 +231,13 @@
         <div class="format-title" id="formatTitle">Выберите формат</div>
         
         <div class="format-cards">
-            <div id="presentationCard" class="format-card" onclick="checkLinkAndOpen(event, document.getElementById('presentationCard').dataset.url)">
+            <div id="presentationCard" class="format-card" onclick="openLink(document.getElementById('presentationCard').dataset.url)">
                 <div class="icon">🖥️</div>
                 <h3>Презентация</h3>
                 <p>Для показа на экране или интерактивной доске</p>
             </div>
 
-            <div id="worksheetCard" class="format-card" onclick="checkLinkAndOpen(event, document.getElementById('worksheetCard').dataset.url)">
+            <div id="worksheetCard" class="format-card" onclick="openLink(document.getElementById('worksheetCard').dataset.url)">
                 <div class="icon">📝</div>
                 <h3>Рабочий лист</h3>
                 <p>Для распечатки и выполнения заданий на бумаге</p>
@@ -284,17 +250,8 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО -->
-<div class="modal-overlay" id="devModal">
-    <div class="modal-content">
-        <h3>🚧 В разработке</h3>
-        <p>Этот файл еще не добавлен в портал. Пожалуйста, загляните позже!</p>
-        <button class="modal-btn" onclick="closeModal()">Понятно</button>
-    </div>
-</div>
-
 <script>
-    // Ссылки на файлы (с учетом папок в репозитории)
+    // Ссылки на файлы
     const files = {
         'math': {
             title: 'Математика (6 класс)',
@@ -308,13 +265,11 @@
         }
     };
 
-    // Переключение на меню выбора формата (Презентация / Рабочий лист)
     function showFormatMenu(subjectKey) {
         document.getElementById('mainMenu').style.display = 'none';
         document.getElementById('mainHeader').textContent = files[subjectKey].title;
         document.getElementById('subHeader').textContent = 'Выберите формат работы:';
         
-        // Записываем ссылки в data-атрибуты карточек
         document.getElementById('presentationCard').dataset.url = files[subjectKey].presentation;
         document.getElementById('worksheetCard').dataset.url = files[subjectKey].worksheet;
         
@@ -322,7 +277,6 @@
         document.getElementById('backBtn').style.display = 'block';
     }
 
-    // Возврат в главное меню
     function showMainMenu() {
         document.getElementById('formatMenu').style.display = 'none';
         document.getElementById('mainHeader').textContent = '🎓 Портал знаний';
@@ -331,42 +285,11 @@
         document.getElementById('backBtn').style.display = 'none';
     }
 
-    // ==========================================
-    // АВТОМАТИЧЕСКАЯ ПРОВЕРКА ФАЙЛА (fetch)
-    // ==========================================
-    async function checkLinkAndOpen(event, url) {
-        // Если url не передан, ничего не делаем
-        if (!url) return;
-        
-        event.preventDefault(); // Блокируем стандартный переход по ссылке
-
-        try {
-            // Пытаемся "постучаться" по ссылке (метод HEAD запрашивает только заголовки)
-            const response = await fetch(url, { method: 'HEAD' });
-            
-            // Если сервер ответил 200 (OK) — файл существует!
-            if (response.ok) {
-                window.open(url, '_blank');
-            } else {
-                // Если 404 (Not Found) или другая ошибка
-                showModal();
-            }
-        } catch (error) {
-            // Если произошла сетевая ошибка (например, при локальном запуске)
-            console.error('Ошибка проверки файла:', error);
-            // На всякий случай пробуем открыть (вдруг это локальный запуск)
-            window.open(url, '_blank'); 
+    // Простая и надежная функция открытия файла без сложных проверок
+    function openLink(url) {
+        if (url) {
+            window.open(url, '_blank');
         }
-    }
-
-    // Показать окно "В разработке"
-    function showModal() {
-        document.getElementById('devModal').style.display = 'flex';
-    }
-
-    // Закрыть окно "В разработке"
-    function closeModal() {
-        document.getElementById('devModal').style.display = 'none';
     }
 </script>
 
