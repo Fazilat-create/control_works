@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проверочная работа: Множества и Вероятность · 8 класс</title>
+
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --main:#27ae60;
+    --main-dark:#1e8449;
+    --main-light:#e8f6ed;
+    --bg:#f4fbf6;
+    --text:#1c3d2a;
+    --muted:#5a7a65;
+    --border:#a9dfc0;
+    --gold:#f1c40f;
+    --islamic-green:#2e7d32;
+    --islamic-bg:#e8f5e9;
+    --red:#e74c3c;
+    --red-bg:#fdedec;
+
+    --plate-mint-bg:#d9f2e6;
+    --plate-mint-br:#27ae60;
+
+    --text-scale: 1.0;
+  }
+
+  *{box-sizing:border-box;}
+
+  html, body{
+    margin:0;
+    padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:calc(18px * var(--text-scale));
+    line-height:1.6;
+  }
+
+  .worksheet{
+    max-width:1000px;
+    margin:30px auto 80px;
+    background:#fff;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(39,174,96,.15);
+    border:3px solid var(--main);
+    overflow:hidden;
+    padding-bottom:30px;
+  }
+
+  /* Шапка */
+  .header{
+    background:linear-gradient(135deg, var(--main), #2ecc71);
+    color:#fff;
+    padding:30px 20px 25px;
+    text-align:center;
+    position:relative;
+  }
+  .header h1{
+    font-size:1.8rem;
+    margin:0 0 8px;
+    font-weight:900;
+    letter-spacing:.5px;
+  }
+  .header .subtitle{
+    font-size:1rem;
+    background:rgba(255,255,255,.2);
+    display:inline-block;
+    padding:4px 16px;
+    border-radius:20px;
+    font-weight:700;
+  }
+
+  /* Блок правил */
+  .rules-note {
+    background-color: var(--red-bg);
+    border: 2px solid var(--red);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin: 24px 30px 10px;
+    color: #7b241c;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.1);
+  }
+  .rules-note strong {
+    color: var(--red);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+  }
+  .rules-note ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .rules-note li { margin-bottom: 2px; }
+
+  /* Блок про честность (сокращённый) */
+  .islamic-note {
+    background-color: var(--islamic-bg);
+    border: 2px solid var(--islamic-green);
+    border-radius: 16px;
+    padding: 12px 18px;
+    margin: 10px 30px 20px;
+    color: #1b5e20;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.1);
+    text-align: center;
+    font-weight: 600;
+  }
+  .islamic-note strong {
+    color: var(--islamic-green);
+    font-family: 'Traditional Arabic', 'Amiri', serif;
+    font-size: 1.2rem;
+    margin-right: 5px;
+  }
+
+  /* Заголовки частей */
+  .part-title{
+    margin: 30px 30px 15px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--main-dark);
+    border-bottom: 3px solid var(--main);
+    padding-bottom: 5px;
+  }
+
+  /* Блок задания */
+  .task-block{
+    margin:0 30px 20px;
+    background:#fff;
+    border-radius:20px;
+    border:2px solid var(--border);
+    box-shadow:0 6px 20px rgba(39,174,96,.08);
+    overflow:hidden;
+    page-break-inside:avoid;
+  }
+
+  .task-header{
+    background:var(--main-light);
+    padding:12px 20px;
+    border-bottom:2px dotted var(--border);
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .task-number{
+    background:var(--main);
+    color:#fff;
+    font-weight:900;
+    font-size:1.1rem;
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    flex-shrink:0;
+    box-shadow:0 4px 10px rgba(39,174,96,.3);
+  }
+
+  .task-header h2{
+    font-size:1.15rem;
+    color:var(--main-dark);
+    margin:0;
+    font-weight:800;
+  }
+
+  .task-content{
+    padding:18px 24px;
+  }
+
+  .task-text{
+    font-size:1rem;
+    margin-bottom:12px;
+    color:var(--text);
+    font-weight:500;
+  }
+  .task-text b{color:var(--main-dark);}
+  .task-text:last-child{margin-bottom:0;}
+
+  /* Сетка для подпунктов */
+  .math-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+    margin-top:12px;
+  }
+  .math-col{
+    background:var(--main-light);
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px dashed var(--border);
+    font-weight:500;
+  }
+  .math-col b{color:var(--main-dark);}
+
+  /* Рисунки */
+  .figure{
+    display:flex;
+    justify-content:center;
+    margin: 12px 0;
+  }
+
+  /* Блок с галочкой */
+  .success-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:30px 30px 10px;
+    padding:30px 24px;
+    background:linear-gradient(180deg,#fff 0%, var(--main-light) 100%);
+    border-radius:30px;
+    border:3px dashed var(--main);
+    text-align: center;
+  }
+  .success-checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px var(--main);
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    background-color: var(--main);
+    margin-bottom: 15px;
+  }
+  .success-checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: var(--main);
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  .success-checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+  @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+  @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+  @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 60px var(--main); } }
+
+  .success-text{
+    font-size:1.3rem;
+    font-weight:800;
+    color:var(--main-dark);
+    margin-bottom: 10px;
+  }
+  .success-subtext {
+    font-size:1rem;
+    font-weight:600;
+    color:var(--muted);
+  }
+
+  /* Футер */
+  .footer-note{
+    text-align:center;
+    font-size:1rem;
+    color:var(--main-dark);
+    font-weight:700;
+    margin:0 30px 10px;
+    padding:16px;
+    border:2px dashed var(--main);
+    border-radius:16px;
+    background:var(--main-light);
+  }
+
+  /* Адаптивность */
+  @media (max-width:768px){
+    .worksheet{border-width:2px;}
+    .header h1{font-size:1.4rem;}
+    .task-block{margin:0 12px 16px;}
+    .math-grid{grid-template-columns:1fr;}
+    .task-content{padding:14px;}
+    .success-container{margin:20px 12px; padding:20px 16px;}
+    .part-title{margin: 20px 12px 10px;}
+    .islamic-note, .rules-note { margin: 16px 12px; }
+  }
+
+  /* Печать */
+  @media print{
+    body{background:#fff !important; padding:0;}
+    .worksheet{box-shadow:none; border:2px solid #ccc; max-width:100%;}
+    .header{background:#f5f5f5 !important; color:#333 !important; border-bottom:3px solid #333;}
+    h1{color:#333 !important;}
+    .subtitle{background:none; border:1px solid #999; color:#333;}
+    .task-block{border:2px solid #ccc; box-shadow:none;}
+    .task-header{background:#f9f9f9 !important; border-bottom:2px dotted #999;}
+    .task-number{background:#333 !important; color:#fff !important; box-shadow:none;}
+    h2{color:#333 !important;}
+    .math-col{background:#fafafa; border:1px dashed #999;}
+    .success-container{background:#fff !important; border:2px solid #ccc;}
+    .part-title{color:#333; border-bottom-color:#333;}
+    .islamic-note, .rules-note { background: #fff !important; border: 2px solid #666; color: #333; box-shadow: none; }
+    .islamic-note strong, .rules-note strong { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<div class="worksheet">
+
+  <div class="header">
+    <h1>Проверочная работа</h1>
+    <div class="subtitle">Множества · Вероятность</div>
+  </div>
+
+  <!-- Правила -->
+  <div class="rules-note">
+    <strong>📏 Правила работы:</strong>
+    <ul>
+      <li>Камера включена.</li>
+      <li>Работаем самостоятельно, без подсказок.</li>
+      <li>Решения расписываем в тетради.</li>
+      <li>Оформляй решения аккуратно и разборчиво.</li>
+    </ul>
+  </div>
+
+  <!-- Честность (кратко) -->
+  <div class="islamic-note">
+    <strong>﷽</strong> Пророк ﷺ сказал: «Кто обманул нас, тот не из нас». Списывание — обман. Покажи свои истинные знания!
+  </div>
+
+  <!-- ==============================================
+       ЧАСТЬ 1. МНОЖЕСТВА
+       ============================================== -->
+  <div class="part-title">Часть 1. Множества и числовые промежутки</div>
+
+  <!-- ЗАДАНИЕ 1 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">1</div>
+      <h2>Запись множеств и подмножества</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col">
+          <b>А)</b> Запишите с помощью символов утверждение: «Число 5 принадлежит множеству натуральных чисел».
+        </div>
+        <div class="math-col">
+          <b>Б)</b> Запишите с помощью скобок числовые промежутки: отрезок от 1 до 6; полуинтервал от –3 до 5, замкнутый справа.
+        </div>
+      </div>
+      
+      <div class="task-text" style="margin-top:16px;">
+        <b>В)</b> Дано множество \(P = \{0, 5; 2; 2, 5; 3; 5\}\). Какие из утверждений верны?
+      </div>
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(0 \in P\)</div>
+        <div class="math-col"><b>2)</b> \(P \in \varnothing\)</div>
+        <div class="math-col"><b>3)</b> \(\varnothing \in P\)</div>
+        <div class="math-col"><b>4)</b> \(P \subset \{3; 5\}\)</div>
+        <div class="math-col"><b>5)</b> \(\{2; 3; 5\} \subset P\)</div>
+        <div class="math-col"><b>6)</b> \(\{2; 5; 5\} \subset P\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 2 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">2</div>
+      <h2>Операции над множествами</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        Запишите перечислением элементов множества \(A \cap B\) и \(A \cup B\), если:
+        \(A = \{1, 5, 4, 2, 7\}\), \(B = \{3, 4, 1, 5, 12\}\).
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 3 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">3</div>
+      <h2>Диаграмма Эйлера</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        На диаграмме показаны множества \(M\) и \(L\). Все элементы изображены точками.
+      </div>
+      <div class="figure">
+        <svg width="360" height="220" viewBox="0 0 360 220">
+          <circle cx="130" cy="110" r="80" fill="none" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="60" y="60" font-size="18" font-style="italic" fill="#1c3d2a">M</text>
+          <circle cx="230" cy="110" r="80" fill="none" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="290" y="60" font-size="18" font-style="italic" fill="#1c3d2a">L</text>
+          
+          <circle cx="90" cy="80" r="4" fill="#e74c3c"/>
+          <circle cx="80" cy="120" r="4" fill="#e74c3c"/>
+          <circle cx="110" cy="150" r="4" fill="#e74c3c"/>
+          <circle cx="130" cy="70" r="4" fill="#e74c3c"/>
+          
+          <circle cx="280" cy="80" r="4" fill="#e74c3c"/>
+          <circle cx="290" cy="130" r="4" fill="#e74c3c"/>
+          <circle cx="260" cy="160" r="4" fill="#e74c3c"/>
+          <circle cx="250" cy="70" r="4" fill="#e74c3c"/>
+
+          <circle cx="180" cy="90" r="4" fill="#e74c3c"/>
+          <circle cx="180" cy="130" r="4" fill="#e74c3c"/>
+          <circle cx="200" cy="110" r="4" fill="#e74c3c"/>
+        </svg>
+      </div>
+      <div class="math-grid">
+        <div class="math-col">
+          <b>А)</b> Сколько элементов содержит множество \(M \cup L\)?
+        </div>
+        <div class="math-col">
+          <b>Б)</b> Заштрихуйте (в тетради) множество \(M \cap L\).
+        </div>
+        <div class="math-col">
+          <b>В)</b> Сколько элементов содержит \(M \setminus L\)?
+        </div>
+        <div class="math-col">
+          <b>Г)</b> Сколько элементов содержит \(L \setminus M\)?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 4 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">4</div>
+      <h2>Числовая прямая</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        <b>1.</b> На числовой прямой изображён промежуток. Запишите это множество с помощью круглых и квадратных скобок.
+      </div>
+      <div class="figure">
+        <svg width="480" height="160" viewBox="0 0 480 160">
+          <!-- А -->
+          <line x1="20" y1="40" x2="220" y2="40" stroke="#1c3d2a" stroke-width="2"/>
+          <polygon points="220,40 210,35 210,45" fill="#1c3d2a"/>
+          <text x="228" y="45" font-style="italic" fill="#1c3d2a">x</text>
+          <line x1="60" y1="35" x2="60" y2="45" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="55" y="60" fill="#1c3d2a">3</text>
+          <line x1="160" y1="35" x2="160" y2="45" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="155" y="60" fill="#1c3d2a">9</text>
+          <rect x="60" y="30" width="100" height="8" fill="#7d6553" opacity="0.4"/>
+          <circle cx="60" cy="40" r="4" fill="#e74c3c"/>
+          <circle cx="160" cy="40" r="4" fill="#fff" stroke="#e74c3c" stroke-width="2"/>
+          <text x="20" y="20" font-weight="bold" font-style="italic" fill="#333">А)</text>
+
+          <!-- Б -->
+          <line x1="260" y1="40" x2="460" y2="40" stroke="#1c3d2a" stroke-width="2"/>
+          <polygon points="460,40 450,35 450,45" fill="#1c3d2a"/>
+          <text x="468" y="45" font-style="italic" fill="#1c3d2a">x</text>
+          <line x1="300" y1="35" x2="300" y2="45" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="290" y="60" fill="#1c3d2a">-2</text>
+          <line x1="400" y1="35" x2="400" y2="45" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="395" y="60" fill="#1c3d2a">1</text>
+          <rect x="300" y="30" width="100" height="8" fill="#7d6553" opacity="0.4"/>
+          <circle cx="300" cy="40" r="4" fill="#e74c3c"/>
+          <circle cx="400" cy="40" r="4" fill="#e74c3c"/>
+          <text x="260" y="20" font-weight="bold" font-style="italic" fill="#333">Б)</text>
+
+          <!-- В -->
+          <line x1="20" y1="120" x2="220" y2="120" stroke="#1c3d2a" stroke-width="2"/>
+          <polygon points="220,120 210,115 210,125" fill="#1c3d2a"/>
+          <text x="228" y="125" font-style="italic" fill="#1c3d2a">x</text>
+          <line x1="60" y1="115" x2="60" y2="125" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="55" y="140" fill="#1c3d2a">2</text>
+          <rect x="60" y="110" width="160" height="8" fill="#7d6553" opacity="0.4"/>
+          <circle cx="60" cy="120" r="4" fill="#e74c3c"/>
+          <text x="20" y="100" font-weight="bold" font-style="italic" fill="#333">В)</text>
+
+          <!-- Г -->
+          <line x1="260" y1="120" x2="460" y2="120" stroke="#1c3d2a" stroke-width="2"/>
+          <polygon points="460,120 450,115 450,125" fill="#1c3d2a"/>
+          <text x="468" y="125" font-style="italic" fill="#1c3d2a">x</text>
+          <line x1="400" y1="115" x2="400" y2="125" stroke="#1c3d2a" stroke-width="2"/>
+          <text x="395" y="140" fill="#1c3d2a">6</text>
+          <rect x="260" y="110" width="140" height="8" fill="#7d6553" opacity="0.4"/>
+          <circle cx="400" cy="120" r="4" fill="#fff" stroke="#e74c3c" stroke-width="2"/>
+          <text x="260" y="100" font-weight="bold" font-style="italic" fill="#333">Г)</text>
+        </svg>
+      </div>
+      
+      <div class="task-text" style="margin-top:20px;">
+        <b>2.</b> Изобразите на числовой прямой и запишите с помощью скобок множество:
+      </div>
+      <div class="math-grid">
+        <div class="math-col"><b>А)</b> интервал от 2 до 8;</div>
+        <div class="math-col"><b>Б)</b> числовой отрезок от –3 до 5;</div>
+        <div class="math-col"><b>В)</b> открытый слева полуинтервал от –1 до 18;</div>
+        <div class="math-col"><b>Г)</b> замкнутый слева числовой луч от 7,2 до плюс бесконечности.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 5 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">5</div>
+      <h2>Пересечение и объединение промежутков</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        Изобразите на числовой прямой множество:
+      </div>
+      <div class="math-grid">
+        <div class="math-col"><b>А)</b> \([-3; 5] \cap (2; 8)\);</div>
+        <div class="math-col"><b>Б)</b> \([-3; 5) \cup (3; 6]\);</div>
+        <div class="math-col"><b>В)</b> \([-4; 9] \cup (11; +\infty)\);</div>
+        <div class="math-col"><b>Г)</b> \((-\infty; 4] \cap [3; +\infty)\).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 6 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">6</div>
+      <h2>Подмножества</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        Пусть множество \(K = \{-1; 4; -5; 6; -7; 8\}\). Выпишите все его подмножества.
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       ЧАСТЬ 2. ВЕРОЯТНОСТЬ
+       ============================================== -->
+  <div class="part-title">Часть 2. Вероятность</div>
+
+  <!-- ЗАДАНИЕ 7 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">7</div>
+      <h2>Вероятность вытянуть билет</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        Для экзамена подготовили билеты с номерами от 1 до 25. Какова вероятность того, что взятый наугад учеником билет имеет:
+      </div>
+      <div class="math-grid">
+        <div class="math-col"><b>А)</b> однозначный номер;</div>
+        <div class="math-col"><b>Б)</b> двузначный номер?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 8 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">8</div>
+      <h2>Равновозможные события</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        В мешке лежат шары: 3 красных, 4 синих и 5 зелёных. Шары одинаковые на ощупь. Наугад вынимают один шар.
+      </div>
+      <div class="math-grid">
+        <div class="math-col">
+          <b>А)</b> Какова вероятность вытянуть красный шар?
+        </div>
+        <div class="math-col">
+          <b>Б)</b> Какова вероятность вытянуть синий или зелёный шар?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 9 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">9</div>
+      <h2>Сумма вероятностей и правило умножения</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col">
+          <b>А)</b> В случайном опыте три элементарных события \(a\), \(b\), \(c\). Известно: \(P(a) = 0{,}2\), \(P(b) = 0{,}45\). Найдите \(P(c)\).
+        </div>
+        <div class="math-col">
+          <b>Б)</b> В школьной столовой на обед предлагают: 4 первых блюда, 3 вторых и 2 напитка. Сколько различных вариантов обеда можно составить?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Блок с галочкой вместо сундука -->
+  <div class="success-container">
+    <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="success-checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    <div class="success-text">
+      Отличная работа!
+    </div>
+    <div class="success-subtext">
+      Не забудь проверить свои ответы и решения перед сдачей.
+    </div>
+  </div>
+
+  <div class="footer-note">
+    🏆 Вы отлично потрудились! Осталось только сдать работу.
+  </div>
+
+</div>
+
+</body>
+</html>
