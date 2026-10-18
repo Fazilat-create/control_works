@@ -209,24 +209,24 @@
             <div class="btn">Выбрать формат</div>
         </div>
 
-        <!-- Прямые ссылки на ВИС и Алгебру -->
-        <div class="subject-card vis" onclick="window.open('presentations/vis_8_test.html', '_blank')">
+        <!-- ВИС и Алгебра открываются сразу, как рабочие листы -->
+        <div class="subject-card vis" onclick="window.open('worksheets/vis_8_worksheet.html', '_blank')">
             <div class="icon">🕌</div>
             <h2>ВИС (8 класс)</h2>
             <p>Проверочная работа по предмету ВИС</p>
-            <div class="btn">Открыть работу</div>
+            <div class="btn">Открыть рабочий лист</div>
         </div>
 
-        <div class="subject-card algebra" onclick="window.open('presentations/algebra_8_test.html', '_blank')">
+        <div class="subject-card algebra" onclick="window.open('worksheets/algebra_8_worksheet.html', '_blank')">
             <div class="icon">📐</div>
             <h2>Алгебра (8 класс)</h2>
             <p>Контрольная работа по алгебре</p>
-            <div class="btn">Открыть работу</div>
+            <div class="btn">Открыть рабочий лист</div>
         </div>
 
     </div>
 
-    <!-- БЛОК ВЫБОРА ФОРМАТА -->
+    <!-- БЛОК ВЫБОРА ФОРМАТА (только для Математики и Информатики) -->
     <div class="format-selection" id="formatMenu">
         <div class="format-title" id="formatTitle">Выберите формат</div>
         
@@ -253,7 +253,7 @@
 </div>
 
 <script>
-    // Ссылки на файлы (с учетом папок в репозитории)
+    // Ссылки на файлы для тех, у кого есть выбор формата
     const files = {
         'math': {
             title: 'Математика (6 класс)',
