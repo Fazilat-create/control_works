@@ -176,40 +176,6 @@
             border-top: 1px solid #dcdde1;
         }
 
-        /* Модальное окно */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .modal-content h3 { color: var(--purple); margin-bottom: 10px; font-size: 1.5rem; }
-        .modal-content p { color: #7f8c8d; margin-bottom: 20px; }
-        .modal-btn {
-            background: var(--purple);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
         @media (max-width: 768px) {
             .subjects-grid { grid-template-columns: 1fr; padding: 20px; }
             .format-cards { flex-direction: column; align-items: center; }
@@ -244,14 +210,14 @@
         </div>
 
         <!-- Прямые ссылки на ВИС и Алгебру -->
-        <div class="subject-card vis" onclick="openLink('presentations/vis_8_test.html')">
+        <div class="subject-card vis" onclick="window.open('presentations/vis_8_test.html', '_blank')">
             <div class="icon">🕌</div>
             <h2>ВИС (8 класс)</h2>
             <p>Проверочная работа по предмету ВИС</p>
             <div class="btn">Открыть работу</div>
         </div>
 
-        <div class="subject-card algebra" onclick="openLink('presentations/algebra_8_test.html')">
+        <div class="subject-card algebra" onclick="window.open('presentations/algebra_8_test.html', '_blank')">
             <div class="icon">📐</div>
             <h2>Алгебра (8 класс)</h2>
             <p>Контрольная работа по алгебре</p>
@@ -266,14 +232,14 @@
         
         <div class="format-cards">
             <!-- Презентация -->
-            <div id="presentationCard" class="format-card" onclick="openLink(document.getElementById('presentationCard').dataset.url)">
+            <div id="presentationCard" class="format-card" onclick="window.open(document.getElementById('presentationCard').dataset.url, '_blank')">
                 <div class="icon">🖥️</div>
                 <h3>Презентация</h3>
                 <p>Для показа на экране или интерактивной доске</p>
             </div>
 
             <!-- Рабочий лист -->
-            <div id="worksheetCard" class="format-card" onclick="openLink(document.getElementById('worksheetCard').dataset.url)">
+            <div id="worksheetCard" class="format-card" onclick="window.open(document.getElementById('worksheetCard').dataset.url, '_blank')">
                 <div class="icon">📝</div>
                 <h3>Рабочий лист</h3>
                 <p>Для распечатки и выполнения заданий на бумаге</p>
@@ -286,26 +252,8 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО -->
-<div class="modal-overlay" id="devModal">
-    <div class="modal-content">
-        <h3>🚧 В разработке</h3>
-        <p>Этот файл еще не добавлен в портал. Пожалуйста, загляните позже!</p>
-        <button class="modal-btn" onclick="closeModal()">Понятно</button>
-    </div>
-</div>
-
 <script>
-    // 1. Список файлов, которые ТОЧНО есть в репозитории.
-    // Если файла нет в этом списке, сайт покажет окно "В разработке".
-    const availableFiles = [
-        'presentations/math_6_kvest.html',     // Презентация по математике (есть)
-        'presentations/info_6_kvest.html',     // Презентация по информатике (есть)
-        'worksheets/math_6_worksheet.html', // Рабочий лист по математике (пока нет/ошибка)
-        'worksheets/info_6_worksheet.html'  // Рабочий лист по информатике (пока нет/ошибка)
-    ];
-
-    // Ссылки на файлы (структура)
+    // Ссылки на файлы (с учетом папок в репозитории)
     const files = {
         'math': {
             title: 'Математика (6 класс)',
@@ -324,6 +272,7 @@
         document.getElementById('mainHeader').textContent = files[subjectKey].title;
         document.getElementById('subHeader').textContent = 'Выберите формат работы:';
         
+        // Записываем ссылки в data-атрибуты карточек
         document.getElementById('presentationCard').dataset.url = files[subjectKey].presentation;
         document.getElementById('worksheetCard').dataset.url = files[subjectKey].worksheet;
         
@@ -337,23 +286,6 @@
         document.getElementById('subHeader').textContent = 'Выберите проверочную работу для вашего класса';
         document.getElementById('mainMenu').style.display = 'grid';
         document.getElementById('backBtn').style.display = 'none';
-    }
-
-    // Универсальная функция открытия (с проверкой списка)
-    function openLink(url) {
-        if (!url) return;
-        
-        // Проверяем, есть ли файл в списке доступных
-        if (availableFiles.includes(url)) {
-            window.open(url, '_blank');
-        } else {
-            // Если нет — показываем окно
-            document.getElementById('devModal').style.display = 'flex';
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('devModal').style.display = 'none';
     }
 </script>
 
