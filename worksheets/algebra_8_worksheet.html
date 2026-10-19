@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Контрольная работа: · 8 класс</title>
+
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+  :root{
+    --main:#ea580c;
+    --main-dark:#c2410c;
+    --main-light:#ffedd5;
+    --bg:#fffbf5;
+    --text:#1e293b;
+    --muted:#78716c;
+    --border:#fed7aa;
+    
+    --islamic-green:#16a34a;
+    --islamic-bg:#f0fdf4;
+    
+    --red:#ef4444;
+    --red-bg:#fee2e2;
+  }
+
+  *{box-sizing:border-box;}
+
+  html, body{
+    margin:0;
+    padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.6;
+  }
+
+  .worksheet{
+    max-width:1000px;
+    margin:30px auto 80px;
+    background:#fff;
+    border-radius:24px;
+    box-shadow:0 15px 40px rgba(234,88,12,.15);
+    border:3px solid var(--main);
+    overflow:hidden;
+    padding-bottom:30px;
+  }
+
+  /* Шапка */
+  .header{
+    background:linear-gradient(135deg, var(--main), #f59e0b);
+    color:#fff;
+    padding:30px 20px 25px;
+    text-align:center;
+    position:relative;
+  }
+  .header h1{
+    font-size:1.8rem;
+    margin:0 0 8px;
+    font-weight:900;
+    letter-spacing:.5px;
+  }
+  .header .subtitle{
+    font-size:1rem;
+    background:rgba(255,255,255,.2);
+    display:inline-block;
+    padding:4px 16px;
+    border-radius:20px;
+    font-weight:700;
+  }
+
+  /* Блок правил (Красный) */
+  .rules-note {
+    background-color: var(--red-bg);
+    border: 2px solid var(--red);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin: 24px 30px 10px;
+    color: #7f1d1d;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.1);
+  }
+  .rules-note strong {
+    color: var(--red);
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+  }
+  .rules-note ol {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .rules-note li { margin-bottom: 6px; }
+  .rules-note li b { color: var(--red); }
+
+  /* Блок про честность (Зеленый) */
+  .islamic-note {
+    background-color: var(--islamic-bg);
+    border: 2px solid var(--islamic-green);
+    border-radius: 16px;
+    padding: 12px 18px;
+    margin: 10px 30px 20px;
+    color: #14532d;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.1);
+    text-align: center;
+    font-weight: 600;
+  }
+  .islamic-note strong {
+    color: var(--islamic-green);
+    font-family: 'Traditional Arabic', 'Amiri', serif;
+    font-size: 1.2rem;
+    margin-right: 5px;
+  }
+
+  /* Заголовки частей */
+  .part-title{
+    margin: 30px 30px 15px;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--main-dark);
+    border-bottom: 3px solid var(--main);
+    padding-bottom: 5px;
+  }
+
+  /* Блок задания */
+  .task-block{
+    margin:0 30px 20px;
+    background:#fff;
+    border-radius:20px;
+    border:2px solid var(--border);
+    box-shadow:0 6px 20px rgba(234,88,12,.06);
+    overflow:hidden;
+    page-break-inside:avoid;
+  }
+
+  .task-header{
+    background:var(--main-light);
+    padding:12px 20px;
+    border-bottom:2px dotted var(--border);
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .task-number{
+    background:var(--main);
+    color:#fff;
+    font-weight:900;
+    font-size:1.1rem;
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    flex-shrink:0;
+    box-shadow:0 4px 10px rgba(234,88,12,.3);
+  }
+
+  .task-header h2{
+    font-size:1.15rem;
+    color:var(--main-dark);
+    margin:0;
+    font-weight:800;
+  }
+
+  .task-content{
+    padding:18px 24px;
+  }
+
+  .task-text{
+    font-size:1rem;
+    margin-bottom:12px;
+    color:var(--text);
+    font-weight:500;
+  }
+  .task-text b{color:var(--main-dark);}
+  .task-text:last-child{margin-bottom:0;}
+
+  /* Сетка для подпунктов */
+  .math-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+    margin-top:12px;
+  }
+  .math-col{
+    background:var(--main-light);
+    padding:14px 18px;
+    border-radius:12px;
+    border:1px dashed var(--border);
+    font-weight:500;
+  }
+  .math-col b{color:var(--main-dark);}
+
+  /* Сетка для 9 задания (одна колонка) */
+  .math-grid-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  /* Блок с галочкой */
+  .success-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin:30px 30px 10px;
+    padding:30px 24px;
+    background:linear-gradient(180deg,#fff 0%, var(--main-light) 100%);
+    border-radius:30px;
+    border:3px dashed var(--main);
+    text-align: center;
+  }
+  .success-checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px var(--main);
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    background-color: var(--main);
+    margin-bottom: 15px;
+  }
+  .success-checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: var(--main);
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  .success-checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+  @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+  @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+  @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 60px var(--main); } }
+
+  .success-text{
+    font-size:1.3rem;
+    font-weight:800;
+    color:var(--main-dark);
+    margin-bottom: 10px;
+  }
+  .success-subtext {
+    font-size:1rem;
+    font-weight:600;
+    color:var(--muted);
+  }
+
+  /* Футер */
+  .footer-note{
+    text-align:center;
+    font-size:1rem;
+    color:var(--main-dark);
+    font-weight:700;
+    margin:0 30px 10px;
+    padding:16px;
+    border:2px dashed var(--main);
+    border-radius:16px;
+    background:var(--main-light);
+  }
+
+  /* Адаптивность */
+  @media (max-width:768px){
+    .worksheet{border-width:2px;}
+    .header h1{font-size:1.4rem;}
+    .task-block{margin:0 12px 16px;}
+    .math-grid{grid-template-columns:1fr;}
+    .task-content{padding:14px;}
+    .success-container{margin:20px 12px; padding:20px 16px;}
+    .part-title{margin: 20px 12px 10px;}
+    .islamic-note, .rules-note { margin: 16px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="worksheet">
+
+  <div class="header">
+    <h1>Контрольная работа</h1>
+    <div class="subtitle">Алгебраические дроби · 8 класс</div>
+  </div>
+
+  <!-- Правила -->
+  <div class="rules-note">
+    <strong>📏 Правила оформления работы:</strong>
+    <ol>
+      <li><b>Промежуточные шаги:</b> Обязательно записывайте все этапы решения.</li>
+      <li><b>График:</b> Обязательно укажите четверти, составьте таблицу значений (от 4 точек) и подпишите оси.</li>
+      <li><b>Общие требования:</b> Каждое действие — с новой строки; при отсутствии промежуточных шагов балл снижается.</li>
+    </ol>
+  </div>
+
+  <!-- Честность -->
+  <div class="islamic-note">
+    <strong>﷽</strong> Пророк ﷺ сказал: «Кто обманул нас, тот не из нас». Списывание — обман. Покажи свои истинные знания!
+  </div>
+
+  <!-- ЧАСТЬ 1 -->
+  <div class="part-title">Часть 1. Действия с алгебраическими дробями</div>
+
+  <!-- ЗАДАНИЕ 1 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">1</div>
+      <h2>Сократите алгебраическую дробь</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{12a^3b}{18a^2b^2}\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{25x^2 - 5x}{10x}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 2 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">2</div>
+      <h2>Приведите алгебраическую дробь к указанному знаменателю</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{3}{x}\) к знаменателю \(x^2\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{a-2}{3}\) к знаменателю \(3a\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 3 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">3</div>
+      <h2>Выполните действия (одинаковые знаменатели)</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{5x}{3y} + \dfrac{2x}{3y}\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{7a}{4b} - \dfrac{3a}{4b}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 4 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">4</div>
+      <h2>Выполните действия (разные знаменатели)</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{2}{x} + \dfrac{3}{x+2}\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{4}{a-1} - \dfrac{1}{a+1}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 5 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">5</div>
+      <h2>Упростите выражение</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{a^2-9}{a^2-6a+9}\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{x^2-4}{x^2+2x}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 6 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">6</div>
+      <h2>Выполните действия</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{3a}{5b} \cdot \dfrac{10b}{9a}\)</div>
+        <div class="math-col"><b>2)</b> \(\left(\dfrac{2x}{3y}\right)^3\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 7 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">7</div>
+      <h2>Упростите выражение</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid">
+        <div class="math-col"><b>1)</b> \(\dfrac{x}{x-2} - \dfrac{2}{x-2}\)</div>
+        <div class="math-col"><b>2)</b> \(\dfrac{a+1}{a} : \dfrac{a^2-1}{a}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ЧАСТЬ 2 -->
+  <div class="part-title">Часть 2. Функция и корни</div>
+
+  <!-- ЗАДАНИЕ 8 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">8</div>
+      <h2>Задана функция \(y = \frac{k}{x}\)</h2>
+    </div>
+    <div class="task-content">
+      <div class="task-text">
+        1) Постройте график функции \(y = -\frac{4}{x}\).<br>
+        2) Укажите, в каких четвертях координат расположен график.
+      </div>
+    </div>
+  </div>
+
+  <!-- ЗАДАНИЕ 9 -->
+  <div class="task-block">
+    <div class="task-header">
+      <div class="task-number">9</div>
+      <h2>Вычислите</h2>
+    </div>
+    <div class="task-content">
+      <div class="math-grid-single">
+        <div class="math-col"><b>1)</b> \(\sqrt{144} + \sqrt{25}\)</div>
+        <div class="math-col"><b>2)</b> \(\sqrt{0{,}81} - \sqrt{0{,}04}\)</div>
+        <div class="math-col"><b>3)</b> \(\sqrt{3^2 + 4^2}\)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Галочка -->
+  <div class="success-container">
+    <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+      <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+      <path class="success-checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+    </svg>
+    <div class="success-text">
+      Отличная работа!
+    </div>
+    <div class="success-subtext">
+      Не забудь проверить свои ответы и решения перед сдачей.
+    </div>
+  </div>
+
+  <div class="footer-note">
+    🏆 Вы отлично потрудились! Осталось только сдать работу.
+  </div>
+
+</div>
+
+</body>
+</html>
